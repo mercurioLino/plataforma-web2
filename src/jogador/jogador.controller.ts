@@ -23,8 +23,8 @@ export class JogadorController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateJogadorDto: UpdateJogadorDto) {
-    return this.jogadorService.update(+id, updateJogadorDto);
+  update(@Param('id', ParseIntPipe) id: number, @Body() updateJogadorDto: UpdateJogadorDto) {
+    return this.jogadorService.update(id, updateJogadorDto);
   }
 
   @Delete(':id')

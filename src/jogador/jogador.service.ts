@@ -41,8 +41,13 @@ export class JogadorService {
     return jogador;
   }
 
-  async update(id: number, updateJogadorDto: UpdateJogadorDto) {
-    return 'xd';
+  async update(id: number, updateJogadorDto: UpdateJogadorDto): Promise<Jogador> {
+    await this.repository.update(id, updateJogadorDto);
+    const jogador = await this.repository.findOneBy({id});
+    if(!jogador){
+      throw new RecordNotFoundException();
+    }
+    return jogador;
   }
 
   async remove(id: number) {

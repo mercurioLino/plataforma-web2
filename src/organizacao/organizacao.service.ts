@@ -45,7 +45,7 @@ export class OrganizacaoService {
     if (!organizacao) {
       throw new RecordNotFoundException();
     }
-  
+    
     return organizacao;
   }
 
