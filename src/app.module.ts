@@ -18,19 +18,16 @@ import { Equipe } from './equipe/entities/equipe.entity';
 import { Jogo } from './jogo/entities/jogo.entity';
 import { JogadorPerfilJogoModule } from './jogador-perfil-jogo/jogador-perfil-jogo.module';
 import { JogadorPerfilJogo } from './jogador-perfil-jogo/entities/jogador-perfil-jogo.entity';
-import { FuncionarioAdministradorModule } from './funcionario-administrador/funcionario-administrador.module';
-import { FuncionarioModeradorModule } from './funcionario-moderador/funcionario-moderador.module';
-import { AtendimentoPlataformaOrganizacaoModule } from './atendimento-plataforma-organizacao/atendimento-plataforma-organizacao.module';
-import { AtendimentoPlataformaJogadorModule } from './atendimento-plataforma-jogador/atendimento-plataforma-jogador.module';
-import { AtendimentoOrganizacaoJogadorModule } from './atendimento-organizacao-jogador/atendimento-organizacao-jogador.module';
-import { AtendimentoOrganizacaoJogador } from './atendimento-organizacao-jogador/entities/atendimento-organizacao-jogador.entity';
-import { AtendimentoPlataformaJogador } from './atendimento-plataforma-jogador/entities/atendimento-plataforma-jogador.entity';
-import { AtendimentoPlataformaOrganizacao } from './atendimento-plataforma-organizacao/entities/atendimento-plataforma-organizacao.entity';
-import { FuncionarioAdministrador } from './funcionario-administrador/entities/funcionario-administrador.entity';
-import { FuncionarioModerador } from './funcionario-moderador/entities/funcionario-moderador.entity';
+import { ConfigModule } from '@nestjs/config';
+import { TorneioIndividualModule } from './torneio-individual/torneio-individual.module';
+import { TorneioIndividual } from './torneio-individual/entities/torneio-individual.entity';
+import { AuthModule } from './auth/auth.module';
+import { Atendimento } from './atendimento/entities/atendimento.entity';
+import { AtendimentoModule } from './atendimento/atendimento.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'database/plataforma.db',
@@ -44,11 +41,8 @@ import { FuncionarioModerador } from './funcionario-moderador/entities/funcionar
         Equipe, 
         Jogo, 
         JogadorPerfilJogo,
-        FuncionarioAdministrador,
-        FuncionarioModerador,
-        AtendimentoPlataformaJogador,
-        AtendimentoPlataformaOrganizacao,
-        AtendimentoOrganizacaoJogador
+        Atendimento,
+        TorneioIndividual
       ],
       synchronize: true,
     }),
@@ -61,11 +55,9 @@ import { FuncionarioModerador } from './funcionario-moderador/entities/funcionar
     EquipeModule,
     JogoModule,
     JogadorPerfilJogoModule,
-    FuncionarioAdministradorModule,
-    FuncionarioModeradorModule,
-    AtendimentoPlataformaOrganizacaoModule,
-    AtendimentoPlataformaJogadorModule,
-    AtendimentoOrganizacaoJogadorModule,
+    AtendimentoModule,
+    TorneioIndividualModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

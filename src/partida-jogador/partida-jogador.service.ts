@@ -8,13 +8,15 @@ import { PartidaJogador } from './entities/partida-jogador.entity';
 
 @Injectable()
 export class PartidaJogadorService {
-  
-  constructor(@InjectRepository(PartidaJogador) private repository: Repository<PartidaJogador>) {}
+  constructor(
+    @InjectRepository(PartidaJogador) private repository: Repository<PartidaJogador>) {}
 
   create(createPartidaJogadorDto: CreatePartidaJogadorDto) {
-    const partida: PartidaJogador = new PartidaJogador()
+    const partida: PartidaJogador = this.repository.create(createPartidaJogadorDto);
     partida.data = createPartidaJogadorDto.data;
     partida.hora = createPartidaJogadorDto.hora;
+    partida.torneio = createPartidaJogadorDto.torneio;
+    partida.jogadores = createPartidaJogadorDto.jogadores;
     return this.repository.save(partida);
   }
 
@@ -22,7 +24,7 @@ export class PartidaJogadorService {
     const partida: Array<PartidaJogador> = await this.repository.find(); 
 
     if (partida.length == 0) {
-      return 'Não existem partidas entre jogadores cadastradas';
+      return 'Não existem partidas entre Jogadors cadastradas';
     }
         
     return partida;
@@ -38,7 +40,7 @@ export class PartidaJogadorService {
     return partida;
   }
 
-  async update(id: number, updatePartidaJogadorDto: UpdatePartidaJogadorDto): Promise<PartidaJogador>{
+  async update(id: number, updatePartidaJogadorDto: UpdatePartidaJogadorDto): Promise<PartidaJogador> {
     await this.repository.update(id, updatePartidaJogadorDto);
     const partida = await this.repository.findOneBy({id});
     if(!partida){

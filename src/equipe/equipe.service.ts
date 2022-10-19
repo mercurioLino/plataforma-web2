@@ -1,6 +1,7 @@
 import { RecordNotFoundException } from '@exceptions';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Jogador } from 'src/jogador/entities/jogador.entity';
 import { Repository } from 'typeorm';
 import { CreateEquipeDto } from './dto/create-equipe.dto';
 import { UpdateEquipeDto } from './dto/update-equipe.dto';
@@ -9,13 +10,15 @@ import { Equipe } from './entities/equipe.entity';
 @Injectable()
 export class EquipeService {
 
-  constructor(@InjectRepository(Equipe) private repository: Repository<Equipe>) {}
+  constructor(
+    @InjectRepository(Equipe) private repository: Repository<Equipe>) {}
 
   create(createEquipeDto: CreateEquipeDto) {
-    const equipe:Equipe = new Equipe();
+    const equipe:Equipe = this.repository.create(createEquipeDto);
     equipe.nome = createEquipeDto.nome;
     equipe.pontuacao = 0;
-
+    equipe.jogadores = createEquipeDto.jogadores;
+    equipe.partidas = createEquipeDto.partidas;
     return this.repository.save(equipe);
   }
 

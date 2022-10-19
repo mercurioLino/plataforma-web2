@@ -1,5 +1,7 @@
 import { IsOptional } from "class-validator";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Atendimento } from "src/atendimento/entities/atendimento.entity";
+import { Organizacao } from "src/organizacao/entities/organizacao.entity";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Funcionario {
@@ -17,4 +19,14 @@ export class Funcionario {
 
     @Column()
     dataNascimento: Date;
+
+    @ManyToOne(() => Organizacao, (organizacao) => organizacao.torneios)
+    organizacao: Organizacao;
+
+    @OneToMany(() => Atendimento, (atendimento) => atendimento.funcionario, {
+        cascade: true,
+        eager: true,
+    })
+    atendimentos: Atendimento[];
+    
 }

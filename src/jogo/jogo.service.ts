@@ -17,7 +17,9 @@ export class JogoService {
     jogo.nome = createJogoDto.nome;
     jogo.categoria = createJogoDto.categoria;
     jogo.regras = createJogoDto.regras;
-
+    jogo.torneios = createJogoDto.torneios;
+    jogo.torneiosIndividuais = createJogoDto.torneiosIndividuais;
+    jogo.perfis = createJogoDto.perfis;
     return this.respository.save(jogo);
   }
 

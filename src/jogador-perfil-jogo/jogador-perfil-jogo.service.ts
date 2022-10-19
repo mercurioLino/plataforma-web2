@@ -15,7 +15,8 @@ export class JogadorPerfilJogoService {
     const perfil: JogadorPerfilJogo = new JogadorPerfilJogo();
     perfil.elo = createJogadorPerfilJogoDto.elo;
     perfil.nickname = createJogadorPerfilJogoDto.nickname;
-
+    perfil.jogador = createJogadorPerfilJogoDto.jogador;
+    perfil.jogo = createJogadorPerfilJogoDto.jogo;
     return this.repository.save(perfil);
   }
 

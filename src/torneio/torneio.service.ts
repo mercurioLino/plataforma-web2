@@ -12,13 +12,15 @@ export class TorneioService {
   constructor(@InjectRepository(Torneio) private repository: Repository<Torneio>) {}
   
   create(createTorneioDto: CreateTorneioDto) {
-    const torneio: Torneio = new Torneio();
+    const torneio: Torneio = this.repository.create(createTorneioDto);
     torneio.data = createTorneioDto.data;
     torneio.hora = createTorneioDto.hora;
     torneio.nome = createTorneioDto.nome;
     torneio.premiacao = createTorneioDto.premiacao;
     torneio.regras = createTorneioDto.regras;
-
+    torneio.partidas = createTorneioDto.partidas;
+    torneio.organizacao = createTorneioDto.organizacao;
+    torneio.jogo = createTorneioDto.jogo;
     return this.repository.save(torneio);
   }
 

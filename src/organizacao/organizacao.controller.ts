@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, DefaultValuePipe, Query } from '@nestjs/common';
 import { OrganizacaoService } from './organizacao.service';
 import { CreateOrganizacaoDto } from './dto/create-organizacao.dto';
 import { UpdateOrganizacaoDto } from './dto/update-organizacao.dto';
@@ -13,13 +13,19 @@ export class OrganizacaoController {
   }
 
   @Get()
-  findAll() {
-    return this.organizacaoService.findAll();
+  findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10,
+    @Query('search') search: string,
+  ) {
+    
+    return this.organizacaoService.findAll({ page, limit }, search);
+  
   }
 
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.organizacaoService.findOne(id);
+    return this.organizacaoService.findOne(+id);
   }
 
   @Patch(':id')

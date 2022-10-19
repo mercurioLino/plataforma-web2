@@ -5,6 +5,7 @@ import { UpdateFuncionarioDto } from './dto/update-funcionario.dto';
 import { Funcionario } from './entities/funcionario.entity';
 import { Repository } from 'typeorm';
 import { RecordNotFoundException } from '@exceptions';
+import { FuncionarioController } from './funcionario.controller';
 
 @Injectable()
 export class FuncionarioService {
@@ -12,13 +13,14 @@ export class FuncionarioService {
   constructor(@InjectRepository(Funcionario) private repository: Repository<Funcionario>) {}
 
   create(createFuncionarioDto: CreateFuncionarioDto) {
-   const funcionario: Funcionario = new Funcionario();
-   funcionario.cpf = createFuncionarioDto.cpf;
-   funcionario.nome = createFuncionarioDto.nome;
-   funcionario.endereco = createFuncionarioDto.endereco;
-   funcionario.dataNascimento = createFuncionarioDto.dataNascimento;
-
-   return this.repository.save(funcionario);
+    const funcionario: Funcionario = new Funcionario();
+    funcionario.cpf = createFuncionarioDto.cpf;
+    funcionario.nome = createFuncionarioDto.nome;
+    funcionario.endereco = createFuncionarioDto.endereco;
+    funcionario.dataNascimento = createFuncionarioDto.dataNascimento;
+    funcionario.organizacao = createFuncionarioDto.organizacao;
+    funcionario.atendimentos = createFuncionarioDto.atendimentos;
+    return this.repository.save(funcionario);
   }
 
   async findAll() {
