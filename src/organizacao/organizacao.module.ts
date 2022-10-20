@@ -11,6 +11,6 @@ import { TorneioIndividual } from 'src/torneio-individual/entities/torneio-indiv
   imports: [TypeOrmModule.forFeature([Organizacao]), Torneio, TorneioIndividual, Funcionario],
   controllers: [OrganizacaoController],
   providers: [OrganizacaoService],
-  exports: [TypeOrmModule]
+  exports: [TypeOrmModule, OrganizacaoService]
 })
 export class OrganizacaoModule {}

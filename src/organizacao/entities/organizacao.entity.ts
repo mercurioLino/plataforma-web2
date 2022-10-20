@@ -1,8 +1,9 @@
+import { hashSync } from "bcrypt";
 import { IsOptional } from "class-validator";
 import { Funcionario } from "src/funcionario/entities/funcionario.entity";
 import { TorneioIndividual } from "src/torneio-individual/entities/torneio-individual.entity";
 import { Torneio } from "src/torneio/entities/torneio.entity";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Organizacao {
@@ -20,6 +21,11 @@ export class Organizacao {
 
     @Column({select: false})
     password: string;
+    
+    @BeforeInsert()
+    hashPassword() {
+      this.password = hashSync(this.password, 10);
+    }
 
     @IsOptional()
     nomeFantasia: string;

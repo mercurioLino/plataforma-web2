@@ -1,17 +1,10 @@
 import { Equipe } from "src/equipe/entities/equipe.entity";
+import { Partida } from "src/partida/partida";
 import { Torneio } from "src/torneio/entities/torneio.entity";
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { ChildEntity, Entity, JoinTable, ManyToMany, ManyToOne } from "typeorm";
 
 @Entity()
-export class PartidaEquipe {
-    @PrimaryGeneratedColumn()
-    id: number;
-
-    @Column()
-    data: string;
-
-    @Column()
-    hora: string;
+export class PartidaEquipe extends Partida{
 
     @ManyToOne(() => Torneio, (torneio) => torneio.partidas)
     torneio: Torneio;

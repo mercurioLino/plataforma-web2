@@ -13,14 +13,8 @@ export class OrganizacaoService {
   constructor(@InjectRepository(Organizacao) private repository: Repository<Organizacao>) {}
 
   async create(createOrganizacaoDto: CreateOrganizacaoDto): Promise<Organizacao> {
-    const organizacao: Organizacao = new Organizacao()
-    organizacao.cnpj = createOrganizacaoDto.cnpj;
-    organizacao.razaoSocial = createOrganizacaoDto.razaoSocial;
-    organizacao.nomeFantasia = createOrganizacaoDto.nomeFantasia;
-    organizacao.torneios = createOrganizacaoDto.torneios;
-    organizacao.torneiosIndividuais = createOrganizacaoDto.torneiosIndividuais;
-    organizacao.funcionarios = createOrganizacaoDto.funcionarios;
-    organizacao.email = createOrganizacaoDto.email;
+    const organizacao: Organizacao = this.repository.create(createOrganizacaoDto);
+     
     const {password, ... result} = await this.repository.save(organizacao);
     return this.repository.save(organizacao);
   }

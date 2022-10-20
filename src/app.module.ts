@@ -24,6 +24,8 @@ import { TorneioIndividual } from './torneio-individual/entities/torneio-individ
 import { AuthModule } from './auth/auth.module';
 import { Atendimento } from './atendimento/entities/atendimento.entity';
 import { AtendimentoModule } from './atendimento/atendimento.module';
+import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -60,6 +62,6 @@ import { AtendimentoModule } from './atendimento/atendimento.module';
     AuthModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [{ provide: APP_GUARD, useClass: JwtAuthGuard }]
 })
 export class AppModule {}
