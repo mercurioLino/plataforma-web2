@@ -1,8 +1,8 @@
 import { Type } from "class-transformer";
-import { IsArray, IsDate, IsDateString, IsDefined, IsNumber, IsObject, IsOptional, IsPositive, IsString, ValidateNested } from "class-validator";
+import { IsString, IsDateString, IsNumber, IsPositive, ValidateNested, IsArray, IsDefined, IsObject } from "class-validator";
 import { Jogo } from "src/jogo/entities/jogo.entity";
 import { Organizacao } from "src/organizacao/entities/organizacao.entity";
-import { PartidaEquipe } from "src/partida-equipe/entities/partida-equipe.entity";
+import { Partida } from "src/partida/entities/partida.entity";
 import { RelationEntityDto } from "src/shared/dto/relation-entity.dto";
 
 export class CreateTorneioDto {
@@ -26,7 +26,7 @@ export class CreateTorneioDto {
     @Type(() => RelationEntityDto)
     @IsArray()
     @IsDefined()
-    partidas: PartidaEquipe[]
+    partidas: Partida[]
 
     @ValidateNested()
     @Type(() => RelationEntityDto)

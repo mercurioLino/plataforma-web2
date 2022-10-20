@@ -1,16 +1,13 @@
-import { IsOptional } from "class-validator";
 import { Jogo } from "src/jogo/entities/jogo.entity";
 import { Organizacao } from "src/organizacao/entities/organizacao.entity";
-import { PartidaEquipe } from "src/partida-equipe/entities/partida-equipe.entity";
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Partida } from "src/partida/entities/partida.entity";
+import { Entity, TableInheritance, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from "typeorm";
 
 @Entity()
-export class Torneio {
+@TableInheritance({column: {type: "varchar", name: "torneios"}})
+export class Torneio{
     @PrimaryGeneratedColumn()
     id: number;
-
-    @Column()
-    nome: string;
 
     @Column()
     data: string;
@@ -18,18 +15,12 @@ export class Torneio {
     @Column()
     hora: string;
 
-    @Column()
-    premiacao: number;
-
-    @Column()
-    regras: string;
-
-    @OneToMany(() => PartidaEquipe, (partida) => partida.torneio, {
+    @OneToMany(() => Partida, (partida) => partida.torneio, {
         cascade: true,
         eager: true,
     })
-    partidas: PartidaEquipe[];
-
+    partidas: Partida[];
+    
     @ManyToOne(() => Organizacao, (organizacao) => organizacao.torneios)
     organizacao: Organizacao;
 

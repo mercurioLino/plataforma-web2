@@ -1,16 +1,16 @@
 import { Module } from '@nestjs/common';
-import { TorneioService } from './torneio.service';
 import { TorneioController } from './torneio.controller';
-import { Torneio } from './entities/torneio.entity';
+import { TorneioEquipeService } from './torneio-equipe.service';
+import { TorneioIndividualService } from './torneio-individual.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PartidaEquipe } from 'src/partida-equipe/entities/partida-equipe.entity';
-import { Organizacao } from 'src/organizacao/entities/organizacao.entity';
-import { Jogo } from 'src/jogo/entities/jogo.entity';
+import { TorneioEquipe } from './entities/torneio-equipe.entity';
+import { TorneioIndividual } from './entities/torneio-individual.entity';
+import { Torneio } from './entities/torneio.entity';
+import { TorneioService } from './torneio.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Torneio]), PartidaEquipe, Organizacao, Jogo],
+  imports: [TypeOrmModule.forFeature([Torneio, TorneioEquipe, TorneioIndividual])],
   controllers: [TorneioController],
-  providers: [TorneioService],
-  exports: [TypeOrmModule] 
+  providers: [TorneioIndividualService, TorneioEquipeService, TorneioService]
 })
 export class TorneioModule {}

@@ -2,7 +2,7 @@ import { RecordNotFoundException } from '@exceptions';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreatePartidaJogadorDto } from './dto/create-partida-jogador.dto';
+import { CreatePartidaJogadorDto } from '../partida/dto/create-partida-jogador.dto';
 import { UpdatePartidaJogadorDto } from './dto/update-partida-jogador.dto';
 import { PartidaJogador } from './entities/partida-jogador.entity';
 

@@ -1,5 +1,5 @@
 import { JogadorPerfilJogo } from "src/jogador-perfil-jogo/entities/jogador-perfil-jogo.entity";
-import { TorneioIndividual } from "src/torneio-individual/entities/torneio-individual.entity";
+import { TorneioIndividual } from "src/torneio/entities/torneio-individual.entity";
 import { Torneio } from "src/torneio/entities/torneio.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 

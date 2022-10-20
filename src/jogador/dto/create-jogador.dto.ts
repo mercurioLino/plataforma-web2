@@ -3,7 +3,7 @@ import { IsArray, IsDefined, IsEmail, IsNotEmptyObject, IsObject, IsString, MaxL
 import { Atendimento } from "src/atendimento/entities/atendimento.entity";
 import { Equipe } from "src/equipe/entities/equipe.entity";
 import { JogadorPerfilJogo } from "src/jogador-perfil-jogo/entities/jogador-perfil-jogo.entity";
-import { CreatePartidaJogadorDto } from "src/partida-jogador/dto/create-partida-jogador.dto";
+import { CreatePartidaJogadorDto } from "src/partida/dto/create-partida-jogador.dto";
 import { PartidaJogador } from "src/partida-jogador/entities/partida-jogador.entity";
 import { RelationEntityDto } from "src/shared/dto/relation-entity.dto";
 

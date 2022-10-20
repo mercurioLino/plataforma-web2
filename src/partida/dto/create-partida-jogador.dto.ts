@@ -3,7 +3,7 @@ import { IsDateString, IsDefined, IsNotEmptyObject, IsObject, ValidateNested } f
 import { CreateJogadorDto } from "src/jogador/dto/create-jogador.dto";
 import { Jogador } from "src/jogador/entities/jogador.entity";
 import { RelationEntityDto } from "src/shared/dto/relation-entity.dto";
-import { TorneioIndividual } from "src/torneio-individual/entities/torneio-individual.entity";
+import { TorneioIndividual } from "src/torneio/entities/torneio-individual.entity";
 
 export class CreatePartidaJogadorDto {
     @IsDateString()

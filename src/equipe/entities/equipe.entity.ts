@@ -1,6 +1,6 @@
 import { IsOptional } from "class-validator";
 import { Jogador } from "src/jogador/entities/jogador.entity";
-import { PartidaEquipe } from "src/partida-equipe/entities/partida-equipe.entity";
+import { PartidaEquipe } from "src/partida/entities/partida-equipe.entity";
 import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
@@ -12,7 +12,7 @@ export class Equipe {
     nome: string;
 
     @IsOptional()
-    pontuacao: number = 0;
+    pontuacao = 0;
 
     @OneToMany(() => Jogador, (jogador) => jogador.equipe, {
         cascade: true,

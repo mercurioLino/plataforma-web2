@@ -2,54 +2,45 @@ import { RecordNotFoundException } from '@exceptions';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateTorneioDto } from './dto/create-torneio.dto';
-import { UpdateTorneioDto } from './dto/update-torneio.dto';
-import { Torneio } from './entities/torneio.entity';
+import { CreateTorneioIndividualDto } from './dto/create-torneio-individual.dto';
+import { UpdateTorneioEquipeDto } from './dto/update-torneio-equipe.dto';
+import { UpdateTorneioIndividualDto } from './dto/update-torneio-individual.dto';
+import { TorneioEquipe } from './entities/torneio-equipe.entity';
+import { TorneioIndividual } from './entities/torneio-individual.entity';
 
 @Injectable()
 export class TorneioService {
 
-  constructor(@InjectRepository(Torneio) private repository: Repository<Torneio>) {}
-  
-  create(createTorneioDto: CreateTorneioDto) {
-    const torneio: Torneio = this.repository.create(createTorneioDto);
-    torneio.data = createTorneioDto.data;
-    torneio.hora = createTorneioDto.hora;
-    torneio.nome = createTorneioDto.nome;
-    torneio.premiacao = createTorneioDto.premiacao;
-    torneio.regras = createTorneioDto.regras;
-    torneio.partidas = createTorneioDto.partidas;
-    torneio.organizacao = createTorneioDto.organizacao;
-    torneio.jogo = createTorneioDto.jogo;
-    return this.repository.save(torneio);
-  }
+  constructor(@InjectRepository(TorneioIndividual) private repository: Repository<TorneioIndividual>) {}
 
   async findAll() {
-    const torneio: Array<Torneio> = await this.repository.find(); 
+    const torneioIndividual: Array<TorneioIndividual> = await this.repository.find(); 
 
-    if (torneio.length == 0) {
-      return 'Não existem torneios cadastrados';
+    if (torneioIndividual.length == 0) {
+      return 'Não existem torneio individuais cadastrados';
     }
         
-    return torneio;
+    return torneioIndividual;
   }
 
   async findOne(id: number) {
-    const torneio = await this.repository.findOneBy({id});
+    const torneioIndividual = await this.repository.findOneBy({id});
 
-    if(!torneio){
+    if(!torneioIndividual){
       throw new RecordNotFoundException;
     }
         
-    return torneio;
+    return torneioIndividual;
   }
 
-  async update(id: number, updateTorneioDto: UpdateTorneioDto): Promise<Torneio> {
+  async update(id: number, updateTorneioDto: UpdateTorneioIndividualDto | UpdateTorneioEquipeDto): Promise<TorneioIndividual|TorneioEquipe> {
     await this.repository.update(id, updateTorneioDto);
     const torneio = await this.repository.findOneBy({id});
+
     if(!torneio){
       throw new RecordNotFoundException();
     }
+
     return torneio;
   }
 

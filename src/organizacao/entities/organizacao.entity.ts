@@ -1,7 +1,7 @@
 import { hashSync } from "bcrypt";
 import { IsOptional } from "class-validator";
 import { Funcionario } from "src/funcionario/entities/funcionario.entity";
-import { TorneioIndividual } from "src/torneio-individual/entities/torneio-individual.entity";
+import { TorneioIndividual } from "src/torneio/entities/torneio-individual.entity";
 import { Torneio } from "src/torneio/entities/torneio.entity";
 import { BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
