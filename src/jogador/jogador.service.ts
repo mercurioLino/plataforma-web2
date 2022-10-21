@@ -13,14 +13,6 @@ export class JogadorService {
 
   create(createJogadorDto: CreateJogadorDto) {
     const jogador: Jogador = this.repository.create(createJogadorDto);
-    jogador.nickname = createJogadorDto.nickname;
-    jogador.email = createJogadorDto.email;
-    jogador.nome = createJogadorDto.nome;
-    jogador.pontuacao = 0;
-    jogador.equipe = createJogadorDto.equipe;
-    jogador.perfis = createJogadorDto.perfis;
-    jogador.partidas = createJogadorDto.partidas;
-    jogador.atendimentos = createJogadorDto.atendimentos;
     return this.repository.save(jogador);
   }
 

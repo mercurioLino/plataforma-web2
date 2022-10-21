@@ -4,6 +4,7 @@ import { RelationEntityDto } from "src/shared/dto/relation-entity.dto";
 import { Torneio } from "src/torneio/entities/torneio.entity";
 
 export class CreatePartidaDto {
+    
     @IsDateString()
     data: string;
 
@@ -15,6 +16,6 @@ export class CreatePartidaDto {
     @IsObject()
     @IsDefined()
     @IsNotEmptyObject()
-    torneio: Torneio;
+    torneio: Torneio;   
 
 }

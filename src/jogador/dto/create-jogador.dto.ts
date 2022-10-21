@@ -3,9 +3,11 @@ import { IsArray, IsDefined, IsEmail, IsNotEmptyObject, IsObject, IsString, MaxL
 import { Atendimento } from "src/atendimento/entities/atendimento.entity";
 import { Equipe } from "src/equipe/entities/equipe.entity";
 import { JogadorPerfilJogo } from "src/jogador-perfil-jogo/entities/jogador-perfil-jogo.entity";
-import { CreatePartidaJogadorDto } from "src/partida/dto/create-partida-jogador.dto";
-import { PartidaJogador } from "src/partida-jogador/entities/partida-jogador.entity";
+import { CreatePartidaIndividualDto } from "src/partida/dto/create-partida-individual.dto";
+import { PartidaIndividual } from "src/partida/entities/partida-individual.entity";
 import { RelationEntityDto } from "src/shared/dto/relation-entity.dto";
+import { CreateTorneioIndividualDto } from "src/torneio/dto/create-torneio-individual.dto";
+import { TorneioIndividual } from "src/torneio/entities/torneio-individual.entity";
 
 export class CreateJogadorDto {
     @IsString()
@@ -38,9 +40,15 @@ export class CreateJogadorDto {
     atendimentos: Atendimento[]
 
     @ValidateNested()
-    @Type(() => CreatePartidaJogadorDto)
+    @Type(() => CreatePartidaIndividualDto)
+    @IsObject()
+    @IsDefined()
+    partidas: PartidaIndividual[];
+
+    @ValidateNested()
+    @Type(() => CreateTorneioIndividualDto)
     @IsObject()
     @IsDefined()
     @IsNotEmptyObject()
-    partidas: PartidaJogador[];
+    torneios: TorneioIndividual[];
 }

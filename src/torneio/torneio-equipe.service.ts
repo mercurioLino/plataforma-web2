@@ -16,4 +16,15 @@ export class TorneioEquipeService {
     return this.repository.save(torneioEquipe);
   }
 
+  async update(id: number, updateTorneioDto: UpdateTorneioEquipeDto ): Promise<TorneioEquipe> {
+    await this.repository.update(id, updateTorneioDto);
+    const torneio = await this.repository.findOneBy({id});
+
+    if(!torneio){
+      throw new RecordNotFoundException();
+    }
+
+    return torneio;
+  }
+
 }

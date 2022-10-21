@@ -3,8 +3,7 @@ import { ChildEntity, JoinTable, ManyToMany } from "typeorm";
 import { Partida } from "./partida.entity";
 
 @ChildEntity()
-export class PartidaJogador extends Partida{
-
+export class PartidaIndividual extends Partida{
     @ManyToMany(() => Jogador, (jogador) => jogador.partidas)
     @JoinTable({name: 'jogadores_por_partida'})
     jogadores: Jogador[]

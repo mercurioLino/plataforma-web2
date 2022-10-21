@@ -34,11 +34,5 @@ export class CreateOrganizacaoDto {
     @Type(() => RelationEntityDto)
     @IsArray()
     @IsDefined()
-    torneiosIndividuais: TorneioIndividual[]
-
-    @ValidateNested()
-    @Type(() => RelationEntityDto)
-    @IsArray()
-    @IsDefined()
     funcionarios: Funcionario[]
 }

@@ -1,14 +1,28 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { CreatePartidaDto } from './dto/create-partida.dto';
-import { UpdatePartidaDto } from './dto/update-partida.dto';
+import { Controller, Post, Body, Get, Param, Patch, Delete, ParseIntPipe } from "@nestjs/common";
+import { CreatePartidaEquipeDto } from "./dto/create-partida-equipe.dto";
+import { CreatePartidaIndividualDto } from "./dto/create-partida-individual.dto";
+import { UpdatePartidaEquipeDto } from "./dto/update-partida-equipe.dto";
+import { UpdatePartidaIndividualDto } from "./dto/update-partida-individual.dto";
+import { UpdatePartidaDto } from "./dto/update-partida.dto";
+import { PartidaEquipeService } from "./partida-equipe.service";
+import { PartidaIndividualService } from "./partida-individual.service";
+import { PartidaService } from "./partida.service";
 
 @Controller('partida')
 export class PartidaController {
-  constructor(private readonly partidaService: PartidaService) {}
+  constructor(
+    private readonly partidaIndividualService: PartidaIndividualService, 
+    private readonly partidaEquipeService: PartidaEquipeService,
+    private readonly partidaService: PartidaService) {}
 
-  @Post()
-  create(@Body() createPartidaDto: CreatePartidaDto) {
-    return this.partidaService.create(createPartidaDto);
+  @Post('equipe')
+  createPartidaEquipe(@Body() createPartidaDto: CreatePartidaEquipeDto) {
+    return this.partidaEquipeService.create(createPartidaDto);
+  }
+
+  @Post('individual')
+  createPartidaIndividual(@Body() createPartidaDto: CreatePartidaIndividualDto ) {
+    return this.partidaIndividualService.create(createPartidaDto);
   }
 
   @Get()
@@ -17,17 +31,20 @@ export class PartidaController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.partidaService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.partidaService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePartidaDto: UpdatePartidaDto) {
-    return this.partidaService.update(+id, updatePartidaDto);
+  updatePartidaIndividual(@Param('id', ParseIntPipe) id: number, @Body() updatePartidaDto: UpdatePartidaIndividualDto | UpdatePartidaEquipeDto) {
+    if(updatePartidaDto instanceof UpdatePartidaIndividualDto){
+      return this.partidaIndividualService.update(id, updatePartidaDto);
+    }
+    return this.partidaEquipeService.update(id, updatePartidaDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.partidaService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.partidaService.remove(id);
   }
 }

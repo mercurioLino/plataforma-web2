@@ -8,7 +8,7 @@ import { Funcionario } from 'src/funcionario/entities/funcionario.entity';
 import { TorneioIndividual } from 'src/torneio/entities/torneio-individual.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Organizacao]), Torneio, TorneioIndividual, Funcionario],
+  imports: [TypeOrmModule.forFeature([Organizacao]), Torneio, Funcionario],
   controllers: [OrganizacaoController],
   providers: [OrganizacaoService],
   exports: [TypeOrmModule, OrganizacaoService]

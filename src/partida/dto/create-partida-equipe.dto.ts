@@ -6,19 +6,6 @@ import { RelationEntityDto } from "src/shared/dto/relation-entity.dto";
 import { Torneio } from "src/torneio/entities/torneio.entity";
 
 export class CreatePartidaEquipeDto {
-    @IsDateString()
-    data: string;
-
-    @IsDateString()
-    hora: string;
-
-    @ValidateNested()
-    @Type(() => RelationEntityDto)
-    @IsObject()
-    @IsDefined()
-    @IsNotEmptyObject()
-    torneio: Torneio;
-
     @ValidateNested()
     @Type(() => CreateEquipeDto)
     @IsObject()

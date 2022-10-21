@@ -14,11 +14,7 @@ export class EquipeService {
     @InjectRepository(Equipe) private repository: Repository<Equipe>) {}
 
   create(createEquipeDto: CreateEquipeDto) {
-    const equipe:Equipe = this.repository.create(createEquipeDto);
-    equipe.nome = createEquipeDto.nome;
-    equipe.pontuacao = 0;
-    equipe.jogadores = createEquipeDto.jogadores;
-    equipe.partidas = createEquipeDto.partidas;
+    const equipe: Equipe = this.repository.create(createEquipeDto);
     return this.repository.save(equipe);
   }
 

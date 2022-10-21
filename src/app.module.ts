@@ -19,15 +19,15 @@ import { JogoModule } from "./jogo/jogo.module";
 import { Organizacao } from "./organizacao/entities/organizacao.entity";
 import { OrganizacaoModule } from "./organizacao/organizacao.module";
 import { PartidaEquipe } from "./partida/entities/partida-equipe.entity";
-import { PartidaEquipeModule } from "./partida-equipe/partida-equipe.module";
-import { PartidaJogador } from "./partida-jogador/entities/partida-jogador.entity";
-import { PartidaJogadorModule } from "./partida-jogador/partida-jogador.module";
+import { PartidaIndividual } from "./partida/entities/partida-individual.entity";
+import { Partida } from "./partida/entities/partida.entity";
+import { PartidaModule } from "./partida/partida.module";
 import { TorneioEquipe } from "./torneio/entities/torneio-equipe.entity";
 import { TorneioIndividual } from "./torneio/entities/torneio-individual.entity";
 import { Torneio } from "./torneio/entities/torneio.entity";
 import { TorneioModule } from "./torneio/torneio.module";
-import { PartidaModule } from './partida/partida.module';
-import { Partida } from "./partida/entities/partida.entity";
+import { Usuario } from "./usuario/entities/usuario.entity";
+import { UsuarioModule } from './usuario/usuario.module';
 
 @Module({
   imports: [
@@ -39,8 +39,9 @@ import { Partida } from "./partida/entities/partida.entity";
         Organizacao, 
         Jogador, 
         Funcionario, 
+        Partida,
         PartidaEquipe, 
-        PartidaJogador, 
+        PartidaIndividual, 
         Equipe, 
         Jogo, 
         JogadorPerfilJogo,
@@ -48,15 +49,13 @@ import { Partida } from "./partida/entities/partida.entity";
         TorneioIndividual,
         TorneioEquipe,
         Torneio,
-        Partida
+        Usuario
       ],
       synchronize: true,
     }),
     OrganizacaoModule,
     JogadorModule,
     FuncionarioModule,
-    PartidaEquipeModule,
-    PartidaJogadorModule,
     EquipeModule,
     JogoModule,
     JogadorPerfilJogoModule,
@@ -64,6 +63,7 @@ import { Partida } from "./partida/entities/partida.entity";
     AuthModule,
     TorneioModule,
     PartidaModule,
+    UsuarioModule,
   ],
   controllers: [],
   providers: [{ provide: APP_GUARD, useClass: JwtAuthGuard }]

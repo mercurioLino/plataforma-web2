@@ -1,5 +1,5 @@
 import { Equipe } from "src/equipe/entities/equipe.entity";
-import { ChildEntity, Entity, JoinTable, ManyToMany, ManyToOne } from "typeorm";
+import { ChildEntity,   JoinTable, ManyToMany } from "typeorm";
 import { Partida } from "./partida.entity";
 
 @ChildEntity()

@@ -41,8 +41,13 @@ export class TorneioController {
   }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() updateTorneioDto: UpdateTorneioIndividualDto | UpdateTorneioEquipeDto) {
-    return this.torneioService.update(id, updateTorneioDto);
+  update(@Param('id', ParseIntPipe) id: number, @Body() updateTorneioDto: UpdateTorneioIndividualDto) {
+    return this.torneioIndividualService.update(id, updateTorneioDto);
+  }
+
+  @Patch(':id')
+  updateTorneioEquipe(@Param('id', ParseIntPipe) id: number, @Body() updateTorneioDto: UpdateTorneioEquipeDto) {
+    return this.torneioEquipeService.update(id, updateTorneioDto);
   }
 
   @Delete(':id')

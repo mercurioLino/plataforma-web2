@@ -36,12 +36,6 @@ export class Organizacao {
     })
     torneios: Torneio[];
 
-    @OneToMany(() => TorneioIndividual, (torneio) => torneio.organizacao, {
-        cascade: true,
-        eager: true,
-    })
-    torneiosIndividuais: TorneioIndividual[];
-
     @OneToMany(() => Funcionario, (funcionario) => funcionario.organizacao, {
         cascade: true,
         eager: true,
