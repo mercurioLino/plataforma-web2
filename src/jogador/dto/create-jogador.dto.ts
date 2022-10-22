@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsArray, IsDefined, IsEmail, IsNotEmptyObject, IsObject, IsString, MaxLength, ValidateNested } from "class-validator";
+import { IsArray, IsDefined, IsEmail, IsObject, IsString, MaxLength, ValidateNested } from "class-validator";
 import { Atendimento } from "src/atendimento/entities/atendimento.entity";
 import { Equipe } from "src/equipe/entities/equipe.entity";
 import { JogadorPerfilJogo } from "src/jogador-perfil-jogo/entities/jogador-perfil-jogo.entity";
@@ -40,15 +40,14 @@ export class CreateJogadorDto {
     atendimentos: Atendimento[]
 
     @ValidateNested()
-    @Type(() => CreatePartidaIndividualDto)
+    @Type(() => RelationEntityDto)
     @IsObject()
     @IsDefined()
     partidas: PartidaIndividual[];
 
     @ValidateNested()
-    @Type(() => CreateTorneioIndividualDto)
+    @Type(() => RelationEntityDto)
     @IsObject()
     @IsDefined()
-    @IsNotEmptyObject()
     torneios: TorneioIndividual[];
 }

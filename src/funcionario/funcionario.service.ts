@@ -6,20 +6,16 @@ import { Funcionario } from './entities/funcionario.entity';
 import { Repository } from 'typeorm';
 import { RecordNotFoundException } from '@exceptions';
 import { FuncionarioController } from './funcionario.controller';
+import { CreateUsuarioDto } from 'src/usuario/dto/create-usuario.dto';
+
 
 @Injectable()
-export class FuncionarioService {
+export class FuncionarioService{
 
   constructor(@InjectRepository(Funcionario) private repository: Repository<Funcionario>) {}
 
-  create(createFuncionarioDto: CreateFuncionarioDto) {
-    const funcionario: Funcionario = new Funcionario();
-    funcionario.cpf = createFuncionarioDto.cpf;
-    funcionario.nome = createFuncionarioDto.nome;
-    funcionario.endereco = createFuncionarioDto.endereco;
-    funcionario.dataNascimento = createFuncionarioDto.dataNascimento;
-    funcionario.organizacao = createFuncionarioDto.organizacao;
-    funcionario.atendimentos = createFuncionarioDto.atendimentos;
+  async create(createFuncionarioDto: CreateFuncionarioDto): Promise<Funcionario> {
+    const funcionario: Funcionario = this.repository.create(createFuncionarioDto);
     return this.repository.save(funcionario);
   }
 

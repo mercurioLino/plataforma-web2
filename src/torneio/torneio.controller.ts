@@ -1,3 +1,4 @@
+import { CreatePartidaIndividualDto } from 'src/partida/dto/create-partida-individual.dto';
 import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { CreateTorneioIndividualDto } from './dto/create-torneio-individual.dto';
 import { CreateTorneioEquipeDto } from './dto/create-torneio-equipe.dto';
@@ -7,6 +8,8 @@ import { TorneioEquipeService } from './torneio-equipe.service';
 import { TorneioIndividualService } from './torneio-individual.service';
 import { TorneioService } from './torneio.service';
 import { AddJogadorTorneioDto } from './dto/add-jogador-torneio.dto';
+import { CreatePartidaEquipeDto } from 'src/partida/dto/create-partida-equipe.dto';
+import { AddEquipeTorneioDto } from './dto/add-equipe-torneio.dto';
 
 @Controller('torneio')
 export class TorneioController {
@@ -30,9 +33,14 @@ export class TorneioController {
     return this.torneioIndividualService.addJogador(id, addJogadorTorneioDto);
   }
 
-  @Get()
+  @Post(':id/add-equipe')
+  addEquipe(@Param('id', ParseIntPipe) id: number, @Body() addEquipeTorneioDto: AddEquipeTorneioDto ) {
+    return this.torneioEquipeService.addJogador(id, addEquipeTorneioDto);
+  }
+
+  @Get('individual')
   findAll() {
-    return this.torneioService.findAll();
+    return this.torneioIndividualService.findAll();
   }
 
   @Get(':id')
@@ -53,5 +61,10 @@ export class TorneioController {
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.torneioService.remove(id);
+  }
+
+  @Post(':id/gerar-partidas')
+  gerarPartidasIndividuais(@Param('id') id: number, @Body() createPartidaDto: CreatePartidaIndividualDto){
+      return this.torneioIndividualService.gerarPartida(id, createPartidaDto);
   }
 }

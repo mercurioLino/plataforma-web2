@@ -4,7 +4,7 @@ import { Partida } from "src/partida/entities/partida.entity";
 import { Entity, TableInheritance, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from "typeorm";
 
 @Entity()
-@TableInheritance({column: {type: "varchar", name: "torneios"}})
+@TableInheritance({column: {type: "varchar", name: "tipo"}})
 export class Torneio{
     @PrimaryGeneratedColumn()
     id: number;
@@ -14,6 +14,9 @@ export class Torneio{
 
     @Column()
     hora: string;
+
+    @Column()
+    qtdParticipantes: number;
 
     @OneToMany(() => Partida, (partida) => partida.torneio, {
         cascade: true,

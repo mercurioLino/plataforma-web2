@@ -39,7 +39,7 @@ export class OrganizacaoService {
     return organizacao;
   }
 
-  async findByEmail(email: string, includePassowrd: boolean = false): Promise<Organizacao> {
+  async findByEmail(email: string, includePassowrd = false): Promise<Organizacao> {
     const user = await this.repository
       .createQueryBuilder('user')
       .addSelect('user.password')

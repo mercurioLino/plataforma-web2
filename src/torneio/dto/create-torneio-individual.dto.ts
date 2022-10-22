@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { ValidateNested, IsObject, IsDefined, IsNotEmptyObject } from "class-validator";
+import { ValidateNested, IsObject, IsDefined } from "class-validator";
 import { CreateJogadorDto } from "src/jogador/dto/create-jogador.dto";
 import { Jogador } from "src/jogador/entities/jogador.entity";
 import { CreateTorneioDto } from "./create-torneio.dto";

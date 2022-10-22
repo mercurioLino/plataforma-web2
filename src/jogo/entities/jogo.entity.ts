@@ -24,12 +24,6 @@ export class Jogo{
     })
     torneios: Torneio[];
 
-    @OneToMany(() => TorneioIndividual, (torneio) => torneio.jogo, {
-        cascade: true,
-        eager: true,
-    })
-    torneiosIndividuais: TorneioIndividual[];
-
     @OneToMany(() => JogadorPerfilJogo, (perfil) => perfil.jogo, {
         cascade: true,
         eager: true,

@@ -1,6 +1,7 @@
-import { PrimaryGeneratedColumn, Column } from "typeorm";
+import { hashSync } from "bcrypt";
+import { BeforeInsert, PrimaryGeneratedColumn, Column, Entity, TableInheritance } from "typeorm";
 
-export class Usuario {
+export abstract class Usuario {
     @PrimaryGeneratedColumn()
     id: number;
     
@@ -9,4 +10,9 @@ export class Usuario {
 
     @Column({select: false})
     password: string;
+
+    @BeforeInsert()
+    hashPassword() {
+      this.password = hashSync(this.password, 10);
+    }
 }

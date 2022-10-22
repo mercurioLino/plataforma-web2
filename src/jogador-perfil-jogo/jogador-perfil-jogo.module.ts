@@ -1,13 +1,15 @@
-import { Module } from '@nestjs/common';
+import { JogoModule } from './../jogo/jogo.module';
+import { JogadorModule } from 'src/jogador/jogador.module';
+import { forwardRef, Module } from '@nestjs/common';
 import { JogadorPerfilJogoService } from './jogador-perfil-jogo.service';
 import { JogadorPerfilJogoController } from './jogador-perfil-jogo.controller';
 import { JogadorPerfilJogo } from './entities/jogador-perfil-jogo.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Jogador } from 'src/jogador/entities/jogador.entity';
-import { Jogo } from 'src/jogo/entities/jogo.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([JogadorPerfilJogo]), Jogador, Jogo],
+  imports: [TypeOrmModule.forFeature([JogadorPerfilJogo]), 
+  forwardRef(() => JogadorModule), 
+  forwardRef(() => JogoModule)],
   controllers: [JogadorPerfilJogoController],
   providers: [JogadorPerfilJogoService],
   exports: [TypeOrmModule]

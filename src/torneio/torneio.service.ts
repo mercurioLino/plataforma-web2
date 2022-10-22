@@ -2,10 +2,6 @@ import { RecordNotFoundException } from '@exceptions';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UpdateTorneioEquipeDto } from './dto/update-torneio-equipe.dto';
-import { UpdateTorneioIndividualDto } from './dto/update-torneio-individual.dto';
-import { TorneioEquipe } from './entities/torneio-equipe.entity';
-import { TorneioIndividual } from './entities/torneio-individual.entity';
 import { Torneio } from './entities/torneio.entity';
 
 @Injectable()

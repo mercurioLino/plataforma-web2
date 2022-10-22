@@ -11,8 +11,10 @@ export class JogadorService {
 
   constructor(@InjectRepository(Jogador) private repository: Repository<Jogador>) {}
 
-  create(createJogadorDto: CreateJogadorDto) {
+  async create(createJogadorDto: CreateJogadorDto) {
     const jogador: Jogador = this.repository.create(createJogadorDto);
+    jogador.pontuacao = 0;
+ 
     return this.repository.save(jogador);
   }
 

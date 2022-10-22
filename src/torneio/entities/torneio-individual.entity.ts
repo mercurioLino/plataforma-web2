@@ -4,7 +4,9 @@ import { Torneio } from "./torneio.entity";
 
 @ChildEntity()
 export class TorneioIndividual extends Torneio {
-    @ManyToMany(() => Jogador, (jogador) => jogador.torneios)
+    @ManyToMany(() => Jogador, {
+        eager: true
+    })
     @JoinTable({name: 'jogadores_por_torneio'})
     jogadores: Jogador[]
 }

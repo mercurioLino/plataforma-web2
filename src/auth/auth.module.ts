@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { OrganizacaoModule } from 'src/organizacao/organizacao.module';
@@ -8,7 +8,7 @@ import { JwtStrategy } from './estrategies/jwt.strategy';
 import { LocalStrategy } from './estrategies/local.strategy';
 
 @Module({
-  imports: [OrganizacaoModule,
+  imports: [forwardRef(()=>OrganizacaoModule),
   JwtModule.registerAsync({ useFactory: (configService: ConfigService) => {
     return {
       secret: configService.get<string>('JWT_SECRET'),
