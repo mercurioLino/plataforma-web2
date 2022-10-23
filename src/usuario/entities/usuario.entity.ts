@@ -13,7 +13,6 @@ export class Usuario {
     @Column({select: false})
     password: string;
 
-    
     @Column()
     role: string;
     

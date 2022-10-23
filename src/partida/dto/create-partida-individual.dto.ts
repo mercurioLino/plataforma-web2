@@ -3,8 +3,9 @@ import { IsArray, IsDateString, IsDefined, IsNotEmptyObject, IsObject, ValidateN
 import { RelationEntityDto } from "src/shared/dto/relation-entity.dto";
 import { TorneioIndividual } from "src/torneio/entities/torneio-individual.entity";
 import { Jogador } from "src/usuario/entities/jogador.entity";
+import { CreatePartidaDto } from "./create-partida.dto";
 
-export class CreatePartidaIndividualDto {
+export class CreatePartidaIndividualDto extends CreatePartidaDto{
     @ValidateNested()
     @Type(() => RelationEntityDto)
     jogadores: Jogador[];

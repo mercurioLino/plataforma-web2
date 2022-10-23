@@ -11,9 +11,6 @@ export class CreatePartidaDto {
     @IsDateString()
     hora: string;
 
-    @ValidateNested()
     @Type(() => RelationEntityDto)
-    @IsObject()
-    @IsDefined()
     torneio: Torneio;   
 }
