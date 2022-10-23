@@ -1,5 +1,6 @@
-import { Jogador } from "src/jogador/entities/jogador.entity";
+
 import { Jogo } from "src/jogo/entities/jogo.entity";
+import { Jogador } from "src/usuario/entities/jogador.entity";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()

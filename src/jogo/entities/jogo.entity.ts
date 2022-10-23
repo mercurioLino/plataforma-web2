@@ -1,7 +1,8 @@
+import { IsEmpty, IsOptional } from "class-validator";
 import { JogadorPerfilJogo } from "src/jogador-perfil-jogo/entities/jogador-perfil-jogo.entity";
 import { TorneioIndividual } from "src/torneio/entities/torneio-individual.entity";
 import { Torneio } from "src/torneio/entities/torneio.entity";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 
 @Entity()
@@ -18,14 +19,19 @@ export class Jogo{
     @Column()
     regras: string;
 
+    
     @OneToMany(() => Torneio, (torneio) => torneio.jogo, {
         cascade: true,
+        eager: true
     })
-    torneios: Torneio[];
+    @JoinColumn()  
+    torneios: Torneio[];    
 
+    
     @OneToMany(() => JogadorPerfilJogo, (perfil) => perfil.jogo, {
         cascade: true,
         eager: true,
-    })
+    })  
+    @JoinColumn()  
     perfis: JogadorPerfilJogo[];
 }

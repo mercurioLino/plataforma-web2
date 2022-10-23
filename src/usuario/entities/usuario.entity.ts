@@ -1,7 +1,9 @@
 import { hashSync } from "bcrypt";
 import { BeforeInsert, PrimaryGeneratedColumn, Column, Entity, TableInheritance } from "typeorm";
 
-export abstract class Usuario {
+@Entity()
+@TableInheritance({column: {type: "varchar", name: "tipo"}})
+export class Usuario {
     @PrimaryGeneratedColumn()
     id: number;
     
@@ -11,6 +13,10 @@ export abstract class Usuario {
     @Column({select: false})
     password: string;
 
+    
+    @Column()
+    role: string;
+    
     @BeforeInsert()
     hashPassword() {
       this.password = hashSync(this.password, 10);

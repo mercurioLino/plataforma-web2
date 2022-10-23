@@ -1,10 +1,11 @@
-import { RecordNotFoundException } from '@exceptions';
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { CreateJogadorDto } from './dto/create-jogador.dto';
-import { UpdateJogadorDto } from './dto/update-jogador.dto';
-import { Jogador } from './entities/jogador.entity';
+import { RecordNotFoundException } from "@exceptions";
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import { CreateJogadorDto } from "../dto/create-jogador.dto";
+import { UpdateJogadorDto } from "../dto/update-jogador.dto";
+import { Jogador } from "../entities/jogador.entity";
+
 
 @Injectable()
 export class JogadorService {
@@ -27,31 +28,6 @@ export class JogadorService {
         
     return jogador;
   }
-
-  async findOne(id: number): Promise<Jogador>{
-    const jogador = await this.repository.findOneBy({id});
-
-    if(!jogador){
-      throw new RecordNotFoundException;
-    }
-
-    return jogador;
-  }
-
-  async findByEmail(email: string, includePassowrd = false): Promise<Jogador> {
-    const jogador = await this.repository
-      .createQueryBuilder('jogador')
-      .addSelect('jogador.password')
-      .where('jogador.email = :email', { email })
-      .getOne();
-
-    if (includePassowrd) {
-      return jogador;
-    } else {
-      const { password, ...result } = jogador;
-      return result as Jogador;
-    }
-  }  
 
   async update(id: number, updateJogadorDto: UpdateJogadorDto): Promise<Jogador> {
     await this.repository.update(id, updateJogadorDto);

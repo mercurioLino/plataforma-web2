@@ -1,5 +1,5 @@
-import { Funcionario } from "src/funcionario/entities/funcionario.entity";
-import { Jogador } from "src/jogador/entities/jogador.entity";
+import { Funcionario } from "src/usuario/entities/funcionario.entity";
+import { Jogador } from "src/usuario/entities/jogador.entity";
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
 
 @Entity()

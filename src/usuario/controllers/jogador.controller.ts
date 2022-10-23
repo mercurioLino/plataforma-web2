@@ -1,11 +1,13 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
-import { JogadorService } from './jogador.service';
-import { CreateJogadorDto } from './dto/create-jogador.dto';
-import { UpdateJogadorDto } from './dto/update-jogador.dto';
+import { CreateJogadorDto } from '../dto/create-jogador.dto';
+import { UpdateJogadorDto } from '../dto/update-jogador.dto';
+import { JogadorService } from '../services/jogador.service';
+import { UsuarioService } from '../services/usuario.service';
 
 @Controller('jogador')
 export class JogadorController {
-  constructor(private readonly jogadorService: JogadorService) {}
+  constructor(private readonly jogadorService: JogadorService,
+    private readonly usuarioService: UsuarioService) {}
 
   @Post()
   create(@Body() createJogadorDto: CreateJogadorDto) {
@@ -19,7 +21,7 @@ export class JogadorController {
 
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.jogadorService.findOne(id);
+    return this.usuarioService.findOne(id);
   }
 
   @Patch(':id')

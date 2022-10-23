@@ -1,7 +1,7 @@
 import { IsOptional } from "class-validator";
-import { Jogador } from "src/jogador/entities/jogador.entity";
 import { PartidaEquipe } from "src/partida/entities/partida-equipe.entity";
-import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Jogador } from "src/usuario/entities/jogador.entity";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Equipe {
@@ -18,6 +18,7 @@ export class Equipe {
         cascade: true,
         eager: true,
     })
+    @JoinColumn()
     jogadores: Jogador[];
 }
 

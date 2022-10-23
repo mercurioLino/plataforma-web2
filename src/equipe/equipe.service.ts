@@ -1,10 +1,9 @@
 import { RecordNotFoundException } from '@exceptions';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Jogador } from 'src/jogador/entities/jogador.entity';
 import { RelationEntityDto } from 'src/shared/dto/relation-entity.dto';
+import { Jogador } from 'src/usuario/entities/jogador.entity';
 import { Repository } from 'typeorm';
-import { AddJogadorEquipeDto } from './dto/add-jogador-equipe.dto';
 import { CreateEquipeDto } from './dto/create-equipe.dto';
 import { UpdateEquipeDto } from './dto/update-equipe.dto';
 import { Equipe } from './entities/equipe.entity';

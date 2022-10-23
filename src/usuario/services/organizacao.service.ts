@@ -2,12 +2,12 @@ import { RecordNotFoundException } from '@exceptions';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IPaginationOptions, paginate, Pagination } from 'nestjs-typeorm-paginate';
-import { Funcionario } from 'src/funcionario/entities/funcionario.entity';
+import { Funcionario } from 'src/usuario/entities/funcionario.entity';
 import { RelationEntityDto } from 'src/shared/dto/relation-entity.dto';
 import { FindOptionsWhere, ILike, Repository } from 'typeorm';
-import { CreateOrganizacaoDto } from './dto/create-organizacao.dto';
-import { UpdateOrganizacaoDto } from './dto/update-organizacao.dto';
-import { Organizacao } from './entities/organizacao.entity';
+import { CreateOrganizacaoDto } from '../dto/create-organizacao.dto';
+import { UpdateOrganizacaoDto } from '../dto/update-organizacao.dto';
+import { Organizacao } from '../entities/organizacao.entity';
 
 @Injectable()
 export class OrganizacaoService {
@@ -29,31 +29,6 @@ export class OrganizacaoService {
     }
         
     return paginate<Organizacao>(this.repository, options, {where});
-  }
-
-  async findOne(id: number): Promise<Organizacao> {
-    const organizacao = await this.repository.findOneBy({id});
-
-    if(!organizacao){
-      throw new RecordNotFoundException;
-    }
-
-    return organizacao;
-  }
-
-  async findByEmail(email: string, includePassowrd = false): Promise<Organizacao> {
-    const organizacao = await this.repository
-      .createQueryBuilder('organizacao')
-      .addSelect('organizacao.password')
-      .where('organizacao.email = :email', { email })
-      .getOne();
-
-    if (includePassowrd) {
-      return organizacao;
-    } else {
-      const { password, ...result } = organizacao;
-      return result as Organizacao;
-    }
   }
 
   async update(id: number, updateOrganizacaoDto: UpdateOrganizacaoDto): Promise<Organizacao> {

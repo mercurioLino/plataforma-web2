@@ -1,6 +1,5 @@
 import { EquipeModule } from 'src/equipe/equipe.module';
 import { TorneioModule } from 'src/torneio/torneio.module';
-import { JogadorModule } from 'src/jogador/jogador.module';
 import { forwardRef, Module } from '@nestjs/common';
 import { PartidaController } from './partida.controller';
 import { PartidaEquipeService } from './partida-equipe.service';
@@ -10,11 +9,12 @@ import { Partida } from './entities/partida.entity';
 import { PartidaEquipe } from './entities/partida-equipe.entity';
 import { PartidaIndividual } from './entities/partida-individual.entity';
 import { PartidaService } from './partida.service';
+import { UsuarioModule } from 'src/usuario/usuario.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Partida, PartidaEquipe, PartidaIndividual]), 
   forwardRef(() => TorneioModule), 
-  forwardRef(() => JogadorModule), 
+  forwardRef(() => UsuarioModule), 
   forwardRef(() => EquipeModule)],
   controllers: [PartidaController],
   providers: [PartidaEquipeService, PartidaIndividualService, PartidaService],

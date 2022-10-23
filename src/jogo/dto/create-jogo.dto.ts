@@ -17,19 +17,9 @@ export class CreateJogoDto {
     
     @ValidateNested()
     @Type(() => RelationEntityDto)
-    @IsArray()
-    @IsDefined()
     torneios: Torneio[]
 
     @ValidateNested()
     @Type(() => RelationEntityDto)
-    @IsArray()
-    @IsDefined()
-    torneiosIndividuais: TorneioIndividual[]
-
-    @ValidateNested()
-    @Type(() => RelationEntityDto)
-    @IsArray()
-    @IsDefined()
     perfis: JogadorPerfilJogo[]
 }

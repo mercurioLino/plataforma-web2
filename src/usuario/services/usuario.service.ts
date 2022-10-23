@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUsuarioDto } from './dto/create-usuario.dto';
-import { UpdateUsuarioDto } from './dto/update-usuario.dto';
-import { Usuario } from './entities/usuario.entity';
+import { CreateUsuarioDto } from '../dto/create-usuario.dto';
+import { UpdateUsuarioDto } from '../dto/update-usuario.dto';
+import { Usuario } from '../entities/usuario.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 import { RecordNotFoundException } from '@exceptions';
@@ -10,26 +10,26 @@ import { RecordNotFoundException } from '@exceptions';
 export class UsuarioService {
 constructor(@InjectRepository(Usuario) private repository: Repository<Usuario>) {}
   async findOne(id: number) {
-    const organizacao = await this.repository.findOneBy({id});
+    const usuario = await this.repository.findOneBy({id});
 
-    if(!organizacao){
+    if(!usuario){
       throw new RecordNotFoundException;
     }
 
-    return organizacao;
+    return usuario;
   }
 
   async findByEmail(email: string, includePassowrd = false): Promise<Usuario> {
-    const user = await this.repository
-      .createQueryBuilder('user')
-      .addSelect('user.password')
-      .where('user.email = :email', { email })
+    const usuario = await this.repository
+      .createQueryBuilder('usuario')
+      .addSelect('usuario.password')
+      .where('usuario.email = :email', { email })
       .getOne();
 
     if (includePassowrd) {
-      return user;
+      return usuario;
     } else {
-      const { password, ...result } = user;
+      const { password, ...result } = usuario;
       return result as Usuario;
     }
   }  

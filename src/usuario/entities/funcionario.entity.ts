@@ -1,10 +1,10 @@
 import { IsOptional } from "class-validator";
 import { Atendimento } from "src/atendimento/entities/atendimento.entity";
-import { Organizacao } from "src/organizacao/entities/organizacao.entity";
-import { Column, Entity, JoinTable, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { ChildEntity, Column, Entity, JoinTable, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Usuario} from "src/usuario/entities/usuario.entity";
+import { Organizacao } from "./organizacao.entity";
 
-@Entity()
+@ChildEntity()
 export class Funcionario extends Usuario{    
     @Column()   
     cpf: string;
@@ -16,7 +16,7 @@ export class Funcionario extends Usuario{
     endereco: string;
 
     @Column()
-    dataNascimento: Date;    
+    dataNascimento: string    
 
     @ManyToOne(() => Organizacao, (organizacao) => organizacao.torneios)
     organizacao: Organizacao;

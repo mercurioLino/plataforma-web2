@@ -1,8 +1,8 @@
 import { Type } from "class-transformer";
 import { IsDefined, IsObject, IsString, ValidateNested } from "class-validator";
-import { Jogador } from "src/jogador/entities/jogador.entity";
 import { Jogo } from "src/jogo/entities/jogo.entity";
 import { RelationEntityDto } from "src/shared/dto/relation-entity.dto";
+import { Jogador } from "src/usuario/entities/jogador.entity";
 
 export class CreateJogadorPerfilJogoDto {
     @IsString()

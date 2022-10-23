@@ -1,10 +1,10 @@
 import { Atendimento } from "src/atendimento/entities/atendimento.entity";
 import { Equipe } from "src/equipe/entities/equipe.entity";
 import { JogadorPerfilJogo } from "src/jogador-perfil-jogo/entities/jogador-perfil-jogo.entity";
-import { Entity, Column, ManyToOne, OneToMany } from "typeorm";
+import { Entity, Column, ManyToOne, OneToMany, ChildEntity } from "typeorm";
 import { Usuario } from 'src/usuario/entities/usuario.entity';
 
-@Entity() 
+@ChildEntity() 
 export class Jogador extends Usuario{
     @Column()
     nome: string;

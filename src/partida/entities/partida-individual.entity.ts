@@ -1,4 +1,5 @@
-import { Jogador } from "src/jogador/entities/jogador.entity";
+
+import { Jogador } from "src/usuario/entities/jogador.entity";
 import { ChildEntity, JoinTable, ManyToMany } from "typeorm";
 import { Partida } from "./partida.entity";
 

@@ -3,13 +3,11 @@ import { AtendimentoService } from './atendimento.service';
 import { AtendimentoController } from './atendimento.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Atendimento } from './entities/atendimento.entity';
-import { JogadorModule } from 'src/jogador/jogador.module';
-import { FuncionarioModule } from 'src/funcionario/funcionario.module';
+import { UsuarioModule } from 'src/usuario/usuario.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Atendimento]), 
-  forwardRef(() => JogadorModule), 
-  forwardRef(() => FuncionarioModule)],
+  imports: [TypeOrmModule.forFeature([Atendimento]),  
+  forwardRef(() => UsuarioModule)],
   controllers: [AtendimentoController],
   providers: [AtendimentoService],
   exports: [TypeOrmModule]

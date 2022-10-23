@@ -8,8 +8,5 @@ import { Torneio } from "src/torneio/entities/torneio.entity";
 export class CreatePartidaEquipeDto {
     @ValidateNested()
     @Type(() => CreateEquipeDto)
-    @IsObject()
-    @IsDefined()
-    @IsNotEmptyObject()
     equipes: Equipe[];
 }

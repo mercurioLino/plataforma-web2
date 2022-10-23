@@ -1,6 +1,5 @@
 
 import { PartidaIndividual } from 'src/partida/entities/partida-individual.entity';
-import { Jogador } from 'src/jogador/entities/jogador.entity';
 import { RecordNotFoundException } from '@exceptions';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -10,6 +9,7 @@ import { TorneioIndividual } from './entities/torneio-individual.entity';
 import { UpdateTorneioIndividualDto } from './dto/update-torneio-individual.dto';
 import { RelationEntityDto } from 'src/shared/dto/relation-entity.dto';
 import { CreatePartidaIndividualDto } from 'src/partida/dto/create-partida-individual.dto';
+import { Jogador } from 'src/usuario/entities/jogador.entity';
 
 @Injectable()
 export class TorneioIndividualService {

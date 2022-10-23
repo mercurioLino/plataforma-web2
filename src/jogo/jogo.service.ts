@@ -13,13 +13,7 @@ export class JogoService {
   
 
   create(createJogoDto: CreateJogoDto) {
-    const jogo: Jogo = new Jogo();
-    jogo.nome = createJogoDto.nome;
-    jogo.categoria = createJogoDto.categoria;
-    jogo.regras = createJogoDto.regras;
-    jogo.torneios = createJogoDto.torneios;
-    //jogo.torneiosIndividuais = createJogoDto.torneiosIndividuais;
-    jogo.perfis = createJogoDto.perfis;
+    const jogo: Jogo = this.respository.create(createJogoDto)
     return this.respository.save(jogo);
   }
 

@@ -1,8 +1,8 @@
 import { RecordNotFoundException } from '@exceptions';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Jogador } from 'src/jogador/entities/jogador.entity';
 import { RelationEntityDto } from 'src/shared/dto/relation-entity.dto';
+import { Jogador } from 'src/usuario/entities/jogador.entity';
 import { Repository } from 'typeorm';
 import { CreatePartidaIndividualDto } from './dto/create-partida-individual.dto';
 import { UpdatePartidaIndividualDto } from './dto/update-partida-individual.dto';

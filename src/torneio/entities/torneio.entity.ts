@@ -1,7 +1,7 @@
 import { IsOptional } from "class-validator";
 import { Jogo } from "src/jogo/entities/jogo.entity";
-import { Organizacao } from "src/organizacao/entities/organizacao.entity";
 import { Partida } from "src/partida/entities/partida.entity";
+import { Organizacao } from "src/usuario/entities/organizacao.entity";
 import { Entity, TableInheritance, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, JoinColumn, JoinTable } from "typeorm";
 import { ForeignKeyMetadata } from "typeorm/metadata/ForeignKeyMetadata";
 
@@ -27,10 +27,10 @@ export class Torneio{
     partidas: Partida[];
     
     @ManyToOne(() => Organizacao, (organizacao) => organizacao.torneios)
-    @JoinTable()
+    @JoinColumn()
     organizacao: Organizacao;
 
     @ManyToOne(() => Jogo, (jogo) => jogo.torneios)
-    @JoinTable()
+    @JoinColumn()
     jogo: Jogo;
 }
