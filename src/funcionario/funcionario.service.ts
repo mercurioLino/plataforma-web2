@@ -37,6 +37,21 @@ export class FuncionarioService{
     return funcionario;
   }
 
+  async findByEmail(email: string, includePassowrd = false): Promise<Funcionario> {
+    const funcionario = await this.repository
+      .createQueryBuilder('funcionario')
+      .addSelect('funcionario.password')
+      .where('funcionario.email = :email', { email })
+      .getOne();
+
+    if (includePassowrd) {
+      return funcionario;
+    } else {
+      const { password, ...result } = funcionario;
+      return result as Funcionario;
+    }
+  }
+
   async update(id: number, updateFuncionarioDto: UpdateFuncionarioDto): Promise<Funcionario> {
     await this.repository.update(id, updateFuncionarioDto);
     const funcionario = await this.repository.findOneBy({id});

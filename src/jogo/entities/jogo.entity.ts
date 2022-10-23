@@ -20,7 +20,6 @@ export class Jogo{
 
     @OneToMany(() => Torneio, (torneio) => torneio.jogo, {
         cascade: true,
-        eager: true,
     })
     torneios: Torneio[];
 

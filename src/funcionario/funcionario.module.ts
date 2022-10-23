@@ -11,6 +11,7 @@ import { AtendimentoModule } from 'src/atendimento/atendimento.module';
   forwardRef(() => OrganizacaoModule), 
   forwardRef(() => AtendimentoModule)],
   controllers: [FuncionarioController],
-  providers: [FuncionarioService]
+  providers: [FuncionarioService],
+  exports: [TypeOrmModule]
 })
 export class FuncionarioModule {}

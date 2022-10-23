@@ -21,6 +21,9 @@ export class CreateJogadorDto {
     @IsEmail()
     email: string;
 
+    @IsString()
+    password: string;
+
     @ValidateNested()
     @Type(() => RelationEntityDto)
     @IsObject()

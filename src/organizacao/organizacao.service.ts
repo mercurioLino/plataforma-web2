@@ -2,6 +2,8 @@ import { RecordNotFoundException } from '@exceptions';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IPaginationOptions, paginate, Pagination } from 'nestjs-typeorm-paginate';
+import { Funcionario } from 'src/funcionario/entities/funcionario.entity';
+import { RelationEntityDto } from 'src/shared/dto/relation-entity.dto';
 import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 import { CreateOrganizacaoDto } from './dto/create-organizacao.dto';
 import { UpdateOrganizacaoDto } from './dto/update-organizacao.dto';
@@ -10,12 +12,12 @@ import { Organizacao } from './entities/organizacao.entity';
 @Injectable()
 export class OrganizacaoService {
 
-  constructor(@InjectRepository(Organizacao) private repository: Repository<Organizacao>) {}
+  constructor(@InjectRepository(Organizacao) private repository: Repository<Organizacao>,
+  @InjectRepository(Funcionario) private repositoryFuncionario: Repository<Funcionario>) {}
 
   async create(createOrganizacaoDto: CreateOrganizacaoDto): Promise<Organizacao> {
     const organizacao: Organizacao = this.repository.create(createOrganizacaoDto);
-     
-    const {password, ... result} = await this.repository.save(organizacao);
+         
     return this.repository.save(organizacao);
   }
 
@@ -23,7 +25,7 @@ export class OrganizacaoService {
     const where: FindOptionsWhere<Organizacao>={}; 
 
     if (search) {
-      where.email = ILike(`%${search}%`);
+    where.email = ILike(`%${search}%`);
     }
         
     return paginate<Organizacao>(this.repository, options, {where});
@@ -40,16 +42,16 @@ export class OrganizacaoService {
   }
 
   async findByEmail(email: string, includePassowrd = false): Promise<Organizacao> {
-    const user = await this.repository
-      .createQueryBuilder('user')
-      .addSelect('user.password')
-      .where('user.email = :email', { email })
+    const organizacao = await this.repository
+      .createQueryBuilder('organizacao')
+      .addSelect('organizacao.password')
+      .where('organizacao.email = :email', { email })
       .getOne();
 
     if (includePassowrd) {
-      return user;
+      return organizacao;
     } else {
-      const { password, ...result } = user;
+      const { password, ...result } = organizacao;
       return result as Organizacao;
     }
   }
@@ -74,4 +76,9 @@ export class OrganizacaoService {
     return 'Organização removida com sucesso!';
   }
 
+  async addFuncionario(id: number, addFuncionarioOrganizacaoDto: RelationEntityDto){
+    const organizacao = await this.repository.findOneBy({id});
+    organizacao.funcionarios.push(await this.repositoryFuncionario.findOneBy({id: addFuncionarioOrganizacaoDto.id}));
+    return this.repository.save(organizacao);
+  }
 }

@@ -4,8 +4,10 @@ import { Partida } from "./partida.entity";
 
 @ChildEntity()
 export class PartidaIndividual extends Partida{
-    @ManyToMany(() => Jogador, (jogador) => jogador.partidas, {
-        eager: true
+    @ManyToMany(() => Jogador, {
+        cascade: true,
+        eager: true,
+        onDelete: 'CASCADE'
     })
     @JoinTable({name: 'jogadores_por_partida'})
     jogadores: Jogador[]

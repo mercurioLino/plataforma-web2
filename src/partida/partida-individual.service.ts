@@ -1,6 +1,8 @@
 import { RecordNotFoundException } from '@exceptions';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Jogador } from 'src/jogador/entities/jogador.entity';
+import { RelationEntityDto } from 'src/shared/dto/relation-entity.dto';
 import { Repository } from 'typeorm';
 import { CreatePartidaIndividualDto } from './dto/create-partida-individual.dto';
 import { UpdatePartidaIndividualDto } from './dto/update-partida-individual.dto';
@@ -9,7 +11,8 @@ import { PartidaIndividual } from './entities/partida-individual.entity';
 @Injectable()
 export class PartidaIndividualService {
   constructor(
-    @InjectRepository(PartidaIndividual) private repository: Repository<PartidaIndividual>) {}
+    @InjectRepository(PartidaIndividual) private repository: Repository<PartidaIndividual>,
+    @InjectRepository(Jogador) private repositoryJogador: Repository<Jogador>) {}
 
     create(createPartidaIndividualDto: CreatePartidaIndividualDto) {
       const partidaIndividual: PartidaIndividual = this.repository.create(createPartidaIndividualDto);
@@ -25,5 +28,11 @@ export class PartidaIndividualService {
       }
   
       return partida;
+    }
+
+    async addJogador(id: number, relationEntityDto: RelationEntityDto){
+      const partida: PartidaIndividual = await this.repository.findOneBy({id});
+      partida.jogadores.push(await this.repositoryJogador.findOneBy({id: relationEntityDto.id}));
+      return this.repository.save(partida);
     }
 }

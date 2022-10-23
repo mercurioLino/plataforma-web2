@@ -1,8 +1,8 @@
 import { Torneio } from "src/torneio/entities/torneio.entity";
-import { PrimaryGeneratedColumn, Column, Entity, TableInheritance, ManyToOne } from "typeorm";
+import { PrimaryGeneratedColumn, Column, Entity, TableInheritance, ManyToOne, JoinColumn, JoinTable } from "typeorm";
 
 @Entity()
-@TableInheritance({column: {type: "varchar", name: "partidas"}})
+@TableInheritance({column: {type: "varchar", name: "tipo"}})
 export class Partida{
     @PrimaryGeneratedColumn()
     id: number;
@@ -14,5 +14,6 @@ export class Partida{
     hora: string;
 
     @ManyToOne(() => Torneio, (torneio) => torneio.partidas)
+    @JoinColumn()
     torneio: Torneio;
 }

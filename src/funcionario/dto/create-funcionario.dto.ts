@@ -19,6 +19,13 @@ export class CreateFuncionarioDto {
     @IsDate()
     dataNascimento: Date;
 
+    @IsString()
+    @IsEmail()
+    email: string;
+
+    @IsString()
+    password: string;
+    
     @ValidateNested()
     @Type(() => RelationEntityDto)
     @IsObject()

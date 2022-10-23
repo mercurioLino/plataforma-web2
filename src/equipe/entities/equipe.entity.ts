@@ -19,14 +19,5 @@ export class Equipe {
         eager: true,
     })
     jogadores: Jogador[];
-
-    @ManyToMany(() => PartidaEquipe, (partida) => partida.equipes, {
-        cascade: true,
-        eager: true,
-    })
-    @JoinTable({name: 'equipes_por_partida'})
-    partidas: PartidaEquipe[]
-
-   
 }
 

@@ -8,7 +8,7 @@ import { CreateTorneioEquipeDto } from './dto/create-torneio-equipe.dto';
 import { UpdateTorneioEquipeDto } from './dto/update-torneio-equipe.dto';
 import { TorneioEquipe } from './entities/torneio-equipe.entity';
 import { CreatePartidaEquipeDto } from 'src/partida/dto/create-partida-equipe.dto';
-import { AddEquipeTorneioDto } from './dto/add-equipe-torneio.dto';
+import { RelationEntityDto } from 'src/shared/dto/relation-entity.dto';
 
 @Injectable()
 export class TorneioEquipeService {
@@ -16,7 +16,7 @@ export class TorneioEquipeService {
   constructor(
     @InjectRepository(TorneioEquipe) private repository: Repository<TorneioEquipe>,
     @InjectRepository(Equipe) private repositoryEquipe: Repository<Equipe>,
-    @InjectRepository(PartidaEquipe) private repositoryPartidaIndividual: Repository<PartidaEquipe>
+    @InjectRepository(PartidaEquipe) private repositoryPartidaEquipe: Repository<PartidaEquipe>
   ) {}
 
   create(createTorneioEquipeDto: CreateTorneioEquipeDto) {
@@ -28,7 +28,7 @@ export class TorneioEquipeService {
     const torneio: Array<TorneioEquipe> = await this.repository.find(); 
 
     if (torneio.length == 0) {
-      return 'Não existem torneio individuais cadastrados';
+      return 'Não existem torneio em equipe cadastrados';
     }
         
     return torneio;
@@ -55,36 +55,40 @@ export class TorneioEquipeService {
     return torneio;
   }
 
-  async addJogador(id: number, addEquipeTorneioDto: AddEquipeTorneioDto){
+  async addEquipe(id: number, relationEntityDto: RelationEntityDto){
     const torneio: TorneioEquipe = await this.repository.findOneBy({id});
 
-    torneio.equipes.push(await this.repositoryEquipe.findOneBy({id: addEquipeTorneioDto.id}));
+    torneio.equipes.push(await this.repositoryEquipe.findOneBy({id: relationEntityDto.id}));
     return this.repository.save(torneio);
   }
 
-  async gerarPartida(id: number, createPartidaEquipeDto: CreatePartidaEquipeDto){
+  async gerarPartida(id: number, createPartidaDto: CreatePartidaEquipeDto){
     const torneio = await this.findOne(id);
-    const equipesInscritas = torneio.equipes;
-    if(equipesInscritas.length < 16){
-      return 'Não há equipes suficientes inscritos para gerar as partidas'
+    torneio.partidas = []
+
+    const jogadoresInscritos = torneio.equipes;
+    let equipesAuxiliar: Equipe[] = [];
+    if(jogadoresInscritos.length < 16){
+      return 'Não há equipes suficientes inscritas para gerar as partidas'
+    } 
+ 
+    for(let i = 0; i < 16; i++){
+      equipesAuxiliar[i] = jogadoresInscritos[i];
     }
     
-    do{
-      const partida = this.repositoryPartidaIndividual.create(createPartidaEquipeDto);
-      partida.equipes = []
-      for(let i = 0; i < 2; i++){
-        const indexEquipe=Math.floor(Math.random() * equipesInscritas.length)
-        partida.equipes.push(equipesInscritas[indexEquipe]);
-        equipesInscritas.splice(indexEquipe, 1);
+    for(let i = 0; i < 8; i++){
+      const partida = this.repositoryPartidaEquipe.create(createPartidaDto);
+      partida.equipes = [];
+      for(let j = 0; j < 2; j++){
+        const indexJogador=Math.floor(Math.random() * jogadoresInscritos.length)
+        partida.equipes.push(jogadoresInscritos[indexJogador]);
+        jogadoresInscritos.splice(indexJogador, 1);
       }
       torneio.partidas.push(partida)
-    }while(torneio.partidas.length < 8)
+    }
 
-    this.repository.save(torneio)
-
-    return torneio;
+    torneio.equipes = equipesAuxiliar;
+    return this.repository.save(torneio);
   }
-
-  
 
 }

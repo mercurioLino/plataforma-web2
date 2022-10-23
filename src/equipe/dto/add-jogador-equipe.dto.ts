@@ -1,6 +1,6 @@
 import { IsNumber } from "class-validator";
 
-export class AddEquipeTorneioDto{
+export class AddJogadorEquipeDto{
     @IsNumber()
     id: number;
 }

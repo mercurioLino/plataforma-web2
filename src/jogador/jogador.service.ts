@@ -38,6 +38,21 @@ export class JogadorService {
     return jogador;
   }
 
+  async findByEmail(email: string, includePassowrd = false): Promise<Jogador> {
+    const jogador = await this.repository
+      .createQueryBuilder('jogador')
+      .addSelect('jogador.password')
+      .where('jogador.email = :email', { email })
+      .getOne();
+
+    if (includePassowrd) {
+      return jogador;
+    } else {
+      const { password, ...result } = jogador;
+      return result as Jogador;
+    }
+  }  
+
   async update(id: number, updateJogadorDto: UpdateJogadorDto): Promise<Jogador> {
     await this.repository.update(id, updateJogadorDto);
     const jogador = await this.repository.findOneBy({id});

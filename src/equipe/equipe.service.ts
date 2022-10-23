@@ -1,7 +1,10 @@
 import { RecordNotFoundException } from '@exceptions';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Jogador } from 'src/jogador/entities/jogador.entity';
+import { RelationEntityDto } from 'src/shared/dto/relation-entity.dto';
 import { Repository } from 'typeorm';
+import { AddJogadorEquipeDto } from './dto/add-jogador-equipe.dto';
 import { CreateEquipeDto } from './dto/create-equipe.dto';
 import { UpdateEquipeDto } from './dto/update-equipe.dto';
 import { Equipe } from './entities/equipe.entity';
@@ -10,7 +13,8 @@ import { Equipe } from './entities/equipe.entity';
 export class EquipeService {
 
   constructor(
-    @InjectRepository(Equipe) private repository: Repository<Equipe>) {}
+    @InjectRepository(Equipe) private repository: Repository<Equipe>,
+    @InjectRepository(Jogador) private repositoryJogador: Repository<Jogador>) {}
 
   create(createEquipeDto: CreateEquipeDto) {
     const equipe: Equipe = this.repository.create(createEquipeDto);
@@ -50,5 +54,11 @@ export class EquipeService {
       throw new RecordNotFoundException();
     }
     return `Equipe removido com sucesso!`;
+  }
+
+  async addJogador(id: number, relationEntityDto: RelationEntityDto){
+    const equipe = await this.repository.findOneBy({id});
+    equipe.jogadores.push(await this.repositoryJogador.findOneBy({id: relationEntityDto.id}));
+    return this.repository.save(equipe);
   }
 }

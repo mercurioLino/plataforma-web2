@@ -12,6 +12,6 @@ import { FuncionarioModule } from 'src/funcionario/funcionario.module';
   forwardRef(() => FuncionarioModule)],
   controllers: [OrganizacaoController],
   providers: [OrganizacaoService],
-  exports: [TypeOrmModule, OrganizacaoService]
+  exports: [TypeOrmModule]
 })
 export class OrganizacaoModule {}

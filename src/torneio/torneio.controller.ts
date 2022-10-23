@@ -1,4 +1,3 @@
-import { CreatePartidaIndividualDto } from 'src/partida/dto/create-partida-individual.dto';
 import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { CreateTorneioIndividualDto } from './dto/create-torneio-individual.dto';
 import { CreateTorneioEquipeDto } from './dto/create-torneio-equipe.dto';
@@ -7,9 +6,9 @@ import { UpdateTorneioIndividualDto } from './dto/update-torneio-individual.dto'
 import { TorneioEquipeService } from './torneio-equipe.service';
 import { TorneioIndividualService } from './torneio-individual.service';
 import { TorneioService } from './torneio.service';
-import { AddJogadorTorneioDto } from './dto/add-jogador-torneio.dto';
-import { CreatePartidaEquipeDto } from 'src/partida/dto/create-partida-equipe.dto';
-import { AddEquipeTorneioDto } from './dto/add-equipe-torneio.dto';
+import { CreatePartidaDto } from 'src/partida/dto/create-partida.dto';
+import { RelationEntityDto } from 'src/shared/dto/relation-entity.dto';
+import { CreatePartidaIndividualDto } from 'src/partida/dto/create-partida-individual.dto';
 
 @Controller('torneio')
 export class TorneioController {
@@ -29,18 +28,18 @@ export class TorneioController {
   }
 
   @Post(':id/add-jogador')
-  addJogador(@Param('id', ParseIntPipe) id: number, @Body() addJogadorTorneioDto: AddJogadorTorneioDto ) {
-    return this.torneioIndividualService.addJogador(id, addJogadorTorneioDto);
+  addJogador(@Param('id', ParseIntPipe) id: number, @Body() relationEntityDto: RelationEntityDto ) {
+    return this.torneioIndividualService.addJogador(id, relationEntityDto);
   }
 
   @Post(':id/add-equipe')
-  addEquipe(@Param('id', ParseIntPipe) id: number, @Body() addEquipeTorneioDto: AddEquipeTorneioDto ) {
-    return this.torneioEquipeService.addJogador(id, addEquipeTorneioDto);
+  addEquipe(@Param('id', ParseIntPipe) id: number, @Body() relationEntityDto: RelationEntityDto ) {
+    return this.torneioEquipeService.addEquipe(id, relationEntityDto);
   }
 
-  @Get('individual')
+  @Get('')
   findAll() {
-    return this.torneioIndividualService.findAll();
+    return this.torneioService.findAll();
   }
 
   @Get(':id')

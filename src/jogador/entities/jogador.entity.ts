@@ -1,21 +1,13 @@
-import { TorneioIndividual } from 'src/torneio/entities/torneio-individual.entity';
-
 import { Atendimento } from "src/atendimento/entities/atendimento.entity";
 import { Equipe } from "src/equipe/entities/equipe.entity";
 import { JogadorPerfilJogo } from "src/jogador-perfil-jogo/entities/jogador-perfil-jogo.entity";
-import { PartidaIndividual } from "src/partida/entities/partida-individual.entity";
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, ManyToMany, JoinTable } from "typeorm";
+import { Entity, Column, ManyToOne, OneToMany } from "typeorm";
+import { Usuario } from 'src/usuario/entities/usuario.entity';
 
 @Entity() 
-export class Jogador {
-    @PrimaryGeneratedColumn()
-    id: number;
-
+export class Jogador extends Usuario{
     @Column()
     nome: string;
-
-    @Column()
-    email: string;
 
     @Column()
     nickname: string;
@@ -37,11 +29,4 @@ export class Jogador {
         eager: true,
     })
     atendimentos: Atendimento[];
-
-    @ManyToMany(() => PartidaIndividual, (partida) => partida.jogadores, {
-        cascade: true,
-    })
-    @JoinTable({name: 'jogadores_por_partida'})
-    partidas: PartidaIndividual[]
-
 }

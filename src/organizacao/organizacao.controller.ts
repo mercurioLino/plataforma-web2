@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Defaul
 import { OrganizacaoService } from './organizacao.service';
 import { CreateOrganizacaoDto } from './dto/create-organizacao.dto';
 import { UpdateOrganizacaoDto } from './dto/update-organizacao.dto';
+import { RelationEntityDto } from 'src/shared/dto/relation-entity.dto';
 
 @Controller('organizacao')
 export class OrganizacaoController {
@@ -18,9 +19,7 @@ export class OrganizacaoController {
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
     @Query('search') search: string,
   ) {
-    
     return this.organizacaoService.findAll({ page, limit }, search);
-  
   }
 
   @Get(':id')
@@ -36,6 +35,11 @@ export class OrganizacaoController {
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.organizacaoService.remove(id);
+  }
+
+  @Post(':id/add-funcionario')
+  addFuncionario(@Param('id', ParseIntPipe) id: number, @Body() relationEntityDto: RelationEntityDto){
+    return this.organizacaoService.addFuncionario(id, relationEntityDto)
   }
 
 }

@@ -4,7 +4,11 @@ import { Partida } from "./partida.entity";
 
 @ChildEntity()
 export class PartidaEquipe extends Partida{
-    @ManyToMany(() => Equipe, (equipe) => equipe.partidas)
+    @ManyToMany(() => Equipe, {
+        cascade: true,
+        eager: true,
+        onDelete: 'CASCADE'
+    })
     @JoinTable({name: 'equipes_por_partida'})
     equipes: Equipe[]
 }

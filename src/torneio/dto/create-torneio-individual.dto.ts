@@ -1,12 +1,12 @@
 import { Type } from "class-transformer";
 import { ValidateNested, IsObject, IsDefined } from "class-validator";
-import { CreateJogadorDto } from "src/jogador/dto/create-jogador.dto";
 import { Jogador } from "src/jogador/entities/jogador.entity";
+import { RelationEntityDto } from "src/shared/dto/relation-entity.dto";
 import { CreateTorneioDto } from "./create-torneio.dto";
 
 export class CreateTorneioIndividualDto extends CreateTorneioDto{
     @ValidateNested()
-    @Type(() => CreateJogadorDto)
+    @Type(() => RelationEntityDto)
     @IsObject()
     @IsDefined()
     jogadores: Jogador[];

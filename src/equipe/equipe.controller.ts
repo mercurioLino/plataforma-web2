@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from 
 import { EquipeService } from './equipe.service';
 import { CreateEquipeDto } from './dto/create-equipe.dto';
 import { UpdateEquipeDto } from './dto/update-equipe.dto';
+import { RelationEntityDto } from 'src/shared/dto/relation-entity.dto';
 
 @Controller('equipe')
 export class EquipeController {
@@ -30,5 +31,10 @@ export class EquipeController {
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.equipeService.remove(id);
+  }
+
+  @Post(':id/add-funcionario')
+  addJogador(@Param('id', ParseIntPipe) id: number, @Body() relationEntityDto: RelationEntityDto){
+    return this.equipeService.addJogador(id, relationEntityDto)
   }
 }

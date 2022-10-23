@@ -15,6 +15,7 @@ export class CreateOrganizacaoDto {
     razaoSocial: string;
 
     @IsEmail()
+    @IsString()
     email: string;
 
     @IsString()
