@@ -17,15 +17,26 @@ export class OrganizacaoService {
 
   async create(createOrganizacaoDto: CreateOrganizacaoDto): Promise<Organizacao> {
     const organizacao: Organizacao = this.repository.create(createOrganizacaoDto);
-         
+    organizacao.ativa = true;
+    organizacao.role = "organizacao";
     return this.repository.save(organizacao);
+  }
+
+  async findOne(id: number) {
+    const usuario = await this.repository.findOneBy({id});
+
+    if(!usuario){
+      throw new RecordNotFoundException;
+    }
+
+    return usuario;
   }
 
   async findAll(options: IPaginationOptions, search?: string): Promise<Pagination<Organizacao>> {
     const where: FindOptionsWhere<Organizacao>={}; 
 
     if (search) {
-    where.email = ILike(`%${search}%`);
+      where.email = ILike(`%${search}%`);
     }
         
     return paginate<Organizacao>(this.repository, options, {where});
@@ -42,18 +53,26 @@ export class OrganizacaoService {
   }
 
   async remove(id: number): Promise<string> {
-    const organizacao = await this.repository.delete(id);
+    const organizacao = this.repository.findOneBy({id});
   
-    if (!organizacao?.affected) {
+    if (!organizacao) {
       throw new RecordNotFoundException();
     }
   
+    (await organizacao).ativa = false;
     return 'Organização removida com sucesso!';
   }
 
   async addFuncionario(id: number, addFuncionarioOrganizacaoDto: RelationEntityDto){
     const organizacao = await this.repository.findOneBy({id});
-    organizacao.funcionarios.push(await this.repositoryFuncionario.findOneBy({id: addFuncionarioOrganizacaoDto.id}));
+    if(!organizacao){
+      throw new RecordNotFoundException();
+    }
+    const funcionario = await this.repositoryFuncionario.findOneBy({id: addFuncionarioOrganizacaoDto.id})
+    if(!funcionario){
+      throw new RecordNotFoundException();
+    }
+    organizacao.funcionarios.push(funcionario);
     return this.repository.save(organizacao);
   }
 }

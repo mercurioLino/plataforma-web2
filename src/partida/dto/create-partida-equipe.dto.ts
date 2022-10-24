@@ -1,3 +1,4 @@
+import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsDateString, IsDefined, IsNotEmptyObject, IsNumber, IsObject, ValidateNested } from "class-validator";
 import { CreateEquipeDto } from "src/equipe/dto/create-equipe.dto";
@@ -8,6 +9,7 @@ import { CreatePartidaDto } from "./create-partida.dto";
 
 export class CreatePartidaEquipeDto extends CreatePartidaDto{
     @ValidateNested()
-    @Type(() => CreateEquipeDto)
+    @Type(() => RelationEntityDto)
+    @ApiProperty({example:'Objeto do tipo Equipe'})
     equipes: Equipe[];
 }

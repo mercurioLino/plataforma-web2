@@ -17,8 +17,8 @@ export class Equipe {
     @OneToMany(() => Jogador, (jogador) => jogador.equipe, {
         cascade: true,
         eager: true,
+        onDelete: "CASCADE"
     })
-    @JoinColumn()
-    jogadores: Jogador[];
+    jogadores?: Jogador[];
 }
 

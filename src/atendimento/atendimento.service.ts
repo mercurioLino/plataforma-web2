@@ -1,7 +1,8 @@
 import { RecordNotFoundException } from '@exceptions';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { IPaginationOptions, paginate, Pagination } from 'nestjs-typeorm-paginate';
+import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 import { CreateAtendimentoDto } from './dto/create-atendimento.dto';
 import { UpdateAtendimentoDto } from './dto/update-atendimento.dto';
 import { Atendimento } from './entities/atendimento.entity';
@@ -11,23 +12,20 @@ export class AtendimentoService {
   constructor(@InjectRepository(Atendimento) private repository: Repository<Atendimento>) {}
 
   create(createAtendimentoDto: CreateAtendimentoDto) : Promise<Atendimento> {
-    const atendimento: Atendimento = new Atendimento();
-    atendimento.descricao = createAtendimentoDto.descricao;
-    atendimento.feedback = createAtendimentoDto.feedback;
+    const atendimento: Atendimento = this.repository.create(createAtendimentoDto);
+    atendimento.feedback = "Aguardando conclusão";
     atendimento.status = "Em aberto";
-    atendimento.jogador = createAtendimentoDto.jogador;
-    atendimento.funcionario = createAtendimentoDto.funcionario;
     return this.repository.save(atendimento);
   }
 
-  async findAll() {
-    const atendimento: Array<Atendimento> = await this.repository.find(); 
+  async findAll(options: IPaginationOptions, search?: string): Promise<Pagination<Atendimento>> {
+    const where: FindOptionsWhere<Atendimento>={}; 
 
-    if (atendimento.length == 0) {
-      return 'Não existem atendimentos de organização para jogador cadastrados';
+    if (search) {
+      where.status = ILike(`%${search}%`);
     }
         
-    return atendimento;
+    return paginate<Atendimento>(this.repository, options, {where});
   }
 
   async findOne(id: number) : Promise<Atendimento> {

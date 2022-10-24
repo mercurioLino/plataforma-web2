@@ -1,7 +1,8 @@
 import { RecordNotFoundException } from '@exceptions';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { IPaginationOptions, Pagination, paginate } from 'nestjs-typeorm-paginate';
+import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 import { CreateJogadorPerfilJogoDto } from './dto/create-jogador-perfil-jogo.dto';
 import { UpdateJogadorPerfilJogoDto } from './dto/update-jogador-perfil-jogo.dto';
 import { JogadorPerfilJogo } from './entities/jogador-perfil-jogo.entity';
@@ -12,22 +13,18 @@ export class JogadorPerfilJogoService {
   constructor(@InjectRepository(JogadorPerfilJogo) private repository: Repository<JogadorPerfilJogo>) {}
 
   create(createJogadorPerfilJogoDto: CreateJogadorPerfilJogoDto) {
-    const perfil: JogadorPerfilJogo = new JogadorPerfilJogo();
-    perfil.elo = createJogadorPerfilJogoDto.elo;
-    perfil.nickname = createJogadorPerfilJogoDto.nickname;
-    perfil.jogador = createJogadorPerfilJogoDto.jogador;
-    perfil.jogo = createJogadorPerfilJogoDto.jogo;
+    const perfil: JogadorPerfilJogo = this.repository.create(createJogadorPerfilJogoDto)
     return this.repository.save(perfil);
   }
 
-  async findAll() {
-    const perfil: Array<JogadorPerfilJogo> = await this.repository.find(); 
+  async findAll(options: IPaginationOptions, search?: string): Promise<Pagination<JogadorPerfilJogo>> {
+    const where: FindOptionsWhere<JogadorPerfilJogo>={}; 
 
-    if (perfil.length == 0) {
-      return 'Não existem perfis cadastrados';
+    if (search) {
+      where.jogo = ILike(`%${search}%`);
     }
         
-    return perfil;
+    return paginate<JogadorPerfilJogo>(this.repository, options, {where});
   }
 
   async findOne(id: number) {

@@ -1,9 +1,10 @@
 import { RecordNotFoundException } from '@exceptions';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { IPaginationOptions, Pagination, paginate } from 'nestjs-typeorm-paginate';
 import { RelationEntityDto } from 'src/shared/dto/relation-entity.dto';
 import { Jogador } from 'src/usuario/entities/jogador.entity';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 import { CreatePartidaIndividualDto } from './dto/create-partida-individual.dto';
 import { UpdatePartidaIndividualDto } from './dto/update-partida-individual.dto';
 import { PartidaIndividual } from './entities/partida-individual.entity';
@@ -19,6 +20,16 @@ export class PartidaIndividualService {
       return this.repository.save(partidaIndividual);
     }
 
+    async findAll(options: IPaginationOptions, search?: string): Promise<Pagination<PartidaIndividual>> {
+      const where: FindOptionsWhere<PartidaIndividual>={}; 
+  
+      if (search) {
+        where.torneio = ILike(`%${search}%`);
+      }
+          
+      return paginate<PartidaIndividual>(this.repository, options, {where});
+    }
+    
     async update(id: number, updatePartidaDto: UpdatePartidaIndividualDto): Promise<PartidaIndividual> {
       await this.repository.update(id, updatePartidaDto);
       const partida = await this.repository.findOneBy({id});
@@ -28,11 +39,5 @@ export class PartidaIndividualService {
       }
   
       return partida;
-    }
-
-    async addJogador(id: number, relationEntityDto: RelationEntityDto){
-      const partida: PartidaIndividual = await this.repository.findOneBy({id});
-      partida.jogadores.push(await this.repositoryJogador.findOneBy({id: relationEntityDto.id}));
-      return this.repository.save(partida);
     }
 }

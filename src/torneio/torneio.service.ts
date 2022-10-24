@@ -1,7 +1,8 @@
 import { RecordNotFoundException } from '@exceptions';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { IPaginationOptions, Pagination, paginate } from 'nestjs-typeorm-paginate';
+import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 import { Torneio } from './entities/torneio.entity';
 
 @Injectable()
@@ -9,14 +10,14 @@ export class TorneioService {
 
   constructor(@InjectRepository(Torneio) private repository: Repository<Torneio>) {}
 
-  async findAll() {
-    const torneio: Array<Torneio> = await this.repository.find(); 
+  async findAll(options: IPaginationOptions, search?: string): Promise<Pagination<Torneio>> {
+    const where: FindOptionsWhere<Torneio>={}; 
 
-    if (torneio.length == 0) {
-      return 'Não existem torneio individuais cadastrados';
+    if (search) {
+      where.jogo = ILike(`%${search}%`);
     }
         
-    return torneio;
+    return paginate<Torneio>(this.repository, options, {where});
   }
 
   async findOne(id: number) {

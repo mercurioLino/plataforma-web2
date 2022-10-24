@@ -6,6 +6,7 @@ import { Equipe } from './entities/equipe.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PartidaModule } from 'src/partida/partida.module';
 import { UsuarioModule } from 'src/usuario/usuario.module';
+import { UsuarioService } from 'src/usuario/services/usuario.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Equipe]), 
@@ -14,7 +15,7 @@ import { UsuarioModule } from 'src/usuario/usuario.module';
   forwardRef(() => PartidaModule),
 ],
   controllers: [EquipeController],
-  providers: [EquipeService],
+  providers: [EquipeService, UsuarioService],
   exports: [TypeOrmModule]
 })
 export class EquipeModule {}

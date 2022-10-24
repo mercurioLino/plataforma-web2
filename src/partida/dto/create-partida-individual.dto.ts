@@ -1,3 +1,4 @@
+import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsArray, IsDateString, IsDefined, IsNotEmptyObject, IsObject, ValidateNested } from "class-validator";
 import { RelationEntityDto } from "src/shared/dto/relation-entity.dto";
@@ -8,5 +9,6 @@ import { CreatePartidaDto } from "./create-partida.dto";
 export class CreatePartidaIndividualDto extends CreatePartidaDto{
     @ValidateNested()
     @Type(() => RelationEntityDto)
+    @ApiProperty({example:'Objeto do tipo Jogador'})
     jogadores: Jogador[];
 }

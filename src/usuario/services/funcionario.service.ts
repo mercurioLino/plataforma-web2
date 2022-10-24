@@ -1,7 +1,8 @@
 import { RecordNotFoundException } from "@exceptions";
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { IPaginationOptions, Pagination, paginate } from "nestjs-typeorm-paginate";
+import { FindOptionsWhere, ILike, Repository } from "typeorm";
 import { CreateFuncionarioDto } from "../dto/create-funcionario.dto";
 import { UpdateFuncionarioDto } from "../dto/update-funcionario.dto";
 import { Funcionario } from "../entities/funcionario.entity";
@@ -15,16 +16,28 @@ export class FuncionarioService{
 
   async create(createFuncionarioDto: CreateFuncionarioDto): Promise<Funcionario> {
     const funcionario: Funcionario = this.repository.create(createFuncionarioDto);
+    funcionario.role = "funcionario";
     return this.repository.save(funcionario);
   }
 
-  async findAll() {
-    const funcionario: Array<Funcionario> = await this.repository.find();
+  async findOne(id: number) {
+    const usuario = await this.repository.findOneBy({id});
 
-    if(funcionario.length == 0){
-      return 'Não existem funcionarios cadastrados';
+    if(!usuario){
+      throw new RecordNotFoundException;
     }
-    return funcionario;
+
+    return usuario;
+  }
+
+  async findAll(options: IPaginationOptions, search?: string): Promise<Pagination<Funcionario>> {
+    const where: FindOptionsWhere<Funcionario>={}; 
+
+    if (search) {
+      where.organizacao = ILike(`%${search}%`);
+    }
+        
+    return paginate<Funcionario>(this.repository, options, {where});
   }
 
   async update(id: number, updateFuncionarioDto: UpdateFuncionarioDto): Promise<Funcionario> {

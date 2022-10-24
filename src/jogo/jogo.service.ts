@@ -2,33 +2,34 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateJogoDto } from './dto/create-jogo.dto';
 import { UpdateJogoDto } from './dto/update-jogo.dto';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 import { Jogo } from './entities/jogo.entity';
 import { RecordNotFoundException } from '@exceptions';
+import { IPaginationOptions, Pagination, paginate } from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class JogoService {
 
-  constructor(@InjectRepository (Jogo) private respository: Repository<Jogo>){}
+  constructor(@InjectRepository (Jogo) private repository: Repository<Jogo>){}
   
 
   create(createJogoDto: CreateJogoDto) {
-    const jogo: Jogo = this.respository.create(createJogoDto)
-    return this.respository.save(jogo);
+    const jogo: Jogo = this.repository.create(createJogoDto)
+    return this.repository.save(jogo);
   }
 
-  async findAll() {
-    const jogo: Array<Jogo> = await this.respository.find();
+  async findAll(options: IPaginationOptions, search?: string): Promise<Pagination<Jogo>> {
+    const where: FindOptionsWhere<Jogo>={}; 
 
-    if(jogo.length ==0){
-      return 'Não existem jogos cadastrados'
+    if (search) {
+      where.categoria = ILike(`%${search}%`);
     }
-
-    return jogo;
+        
+    return paginate<Jogo>(this.repository, options, {where});
   }
 
   async findOne(id: number) {
-    const jogo = await this.respository.findOneBy({id});
+    const jogo = await this.repository.findOneBy({id});
 
     if(!jogo){
       throw new RecordNotFoundException;
@@ -39,8 +40,8 @@ export class JogoService {
   }
 
   async update(id: number, updateJogoDto: UpdateJogoDto): Promise<Jogo> {
-    await this.respository.update(id, updateJogoDto);
-    const jogo = await this.respository.findOneBy({id});
+    await this.repository.update(id, updateJogoDto);
+    const jogo = await this.repository.findOneBy({id});
     if(!jogo){
       throw new RecordNotFoundException;
     }
@@ -48,7 +49,7 @@ export class JogoService {
   }
 
   async remove(id: number) {
-    const jogo = await this.respository.delete(id);
+    const jogo = await this.repository.delete(id);
     if(!jogo.affected){
       throw new RecordNotFoundException;
     }

@@ -14,11 +14,15 @@ export class Atendimento {
     status: string;
 
     @Column()
-    feedback: number;
+    feedback: string;
 
-    @ManyToOne(() => Jogador, (jogador) => jogador.atendimentos)
+    @ManyToOne(() => Jogador, (jogador) => jogador.atendimentos, {
+        onDelete: "CASCADE"
+    })
     jogador: Jogador;
 
-    @ManyToOne(() => Funcionario, (funcionario) => funcionario.atendimentos)
+    @ManyToOne(() => Funcionario, (funcionario) => funcionario.atendimentos, {
+        onDelete: "CASCADE"
+    })
     funcionario: Funcionario;
 }

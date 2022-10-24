@@ -1,7 +1,8 @@
 import { RecordNotFoundException } from "@exceptions";
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { IPaginationOptions, Pagination, paginate } from "nestjs-typeorm-paginate";
+import { FindOptionsWhere, ILike, Repository } from "typeorm";
 import { CreatePartidaEquipeDto } from "./dto/create-partida-equipe.dto";
 import { UpdatePartidaEquipeDto } from "./dto/update-partida-equipe.dto";
 import { PartidaEquipe } from "./entities/partida-equipe.entity";
@@ -13,6 +14,16 @@ export class PartidaEquipeService {
   create(createPartidaEquipeDto: CreatePartidaEquipeDto) {
     const partidaEquipe: PartidaEquipe = this.repository.create(createPartidaEquipeDto);
     return this.repository.save(partidaEquipe);
+  }
+
+  async findAll(options: IPaginationOptions, search?: string): Promise<Pagination<PartidaEquipe>> {
+    const where: FindOptionsWhere<PartidaEquipe>={}; 
+
+    if (search) {
+      where.torneio = ILike(`%${search}%`);
+    }
+        
+    return paginate<PartidaEquipe>(this.repository, options, {where});
   }
 
   async update(id: number, updatePartidaDto: UpdatePartidaEquipeDto): Promise<PartidaEquipe> {

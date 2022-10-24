@@ -20,9 +20,16 @@ export class Torneio{
     @Column()
     qtdParticipantes: number;
 
+    @Column()
+    premiacao: number;
+
+    @Column()
+    regras: string;
+
     @OneToMany(() => Partida, (partida) => partida.torneio, {
         cascade: true,
         eager: true,
+        onDelete: "CASCADE"
     })
     partidas: Partida[];
     

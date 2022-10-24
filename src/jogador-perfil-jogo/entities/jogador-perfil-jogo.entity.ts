@@ -17,6 +17,8 @@ export class JogadorPerfilJogo {
     @ManyToOne(() => Jogo, (jogo) => jogo.perfis)
     jogo: Jogo;
 
-    @ManyToOne(() => Jogador, (jogador) => jogador.perfis)
+    @ManyToOne(() => Jogador, (jogador) => jogador.perfis, {
+        onDelete: "CASCADE"
+    })
     jogador: Jogador;
 }

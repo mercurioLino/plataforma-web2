@@ -15,18 +15,18 @@ export class Jogador extends Usuario{
     @Column()
     pontuacao: number;
 
-    @ManyToOne(() => Equipe, (equipe) => equipe.jogadores)
-    equipe: Equipe;
+    @ManyToOne(() => Equipe, (equipe) => equipe.jogadores,{
+        onDelete: "CASCADE" 
+    })
+    equipe?: Equipe;
 
     @OneToMany(() => JogadorPerfilJogo, (perfil) => perfil.jogador, {
-        cascade: true,
         eager: true,
     })
-    perfis: JogadorPerfilJogo[];
+    perfis?: JogadorPerfilJogo[];
 
     @OneToMany(() => Atendimento, (atendimento) => atendimento.jogador, {
-        cascade: true,
         eager: true,
     })
-    atendimentos: Atendimento[];
+    atendimentos?: Atendimento[];
 }

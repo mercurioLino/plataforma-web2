@@ -1,9 +1,10 @@
 import { RecordNotFoundException } from '@exceptions';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { IPaginationOptions, Pagination, paginate } from 'nestjs-typeorm-paginate';
 import { RelationEntityDto } from 'src/shared/dto/relation-entity.dto';
 import { Jogador } from 'src/usuario/entities/jogador.entity';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 import { CreateEquipeDto } from './dto/create-equipe.dto';
 import { UpdateEquipeDto } from './dto/update-equipe.dto';
 import { Equipe } from './entities/equipe.entity';
@@ -20,19 +21,20 @@ export class EquipeService {
     return this.repository.save(equipe);
   }
 
-  async findAll() {
-    const equipe: Array<Equipe> = await this.repository.find();
+  async findAll(options: IPaginationOptions, search?: string): Promise<Pagination<Equipe>> {
+    const where: FindOptionsWhere<Equipe>={}; 
 
-    if(equipe.length == 0){
-      return 'Não existem equipes cadastradas';
+    if (search) {
+      where.nome = ILike(`%${search}%`);
     }
-    return equipe;
+        
+    return paginate<Equipe>(this.repository, options, {where});
   }
 
   async findOne(id: number): Promise<Equipe> {
     const equipe = await this.repository.findOneBy({id});
 
-    if(!Equipe){
+    if(!equipe){
       throw new RecordNotFoundException;
     }
     return equipe;
@@ -48,16 +50,26 @@ export class EquipeService {
   }
 
   async remove(id: number) {
-    const equipe = await this.repository.delete(id);
-    if(!equipe.affected){
+    const equipe = await this.repository.findOneBy({id});
+    if(!equipe){
       throw new RecordNotFoundException();
     }
+    this.repository.delete(id)
     return `Equipe removido com sucesso!`;
   }
 
   async addJogador(id: number, relationEntityDto: RelationEntityDto){
     const equipe = await this.repository.findOneBy({id});
-    equipe.jogadores.push(await this.repositoryJogador.findOneBy({id: relationEntityDto.id}));
+    if(!equipe){
+      throw new RecordNotFoundException();
+    }
+
+    const jogador = await this.repositoryJogador.findOneBy({id: relationEntityDto.id})
+
+    if(!jogador){
+      throw new RecordNotFoundException();
+    }
+    equipe.jogadores.push(jogador);
     return this.repository.save(equipe);
   }
 }

@@ -1,4 +1,9 @@
-import { Controller, Post, Body, Get, Param, Patch, Delete, ParseIntPipe } from "@nestjs/common";
+import { Controller, Post, Body, Get, Param, Patch, Delete, ParseIntPipe, DefaultValuePipe, Query, UseGuards } from "@nestjs/common";
+import { ApiTags } from "@nestjs/swagger";
+import { Role } from "src/enums/role.enum";
+import { RolesGuard } from "src/guards/role.guard";
+import { IsPublic } from "src/shared/dto/decorator";
+import { Roles } from "src/shared/dto/decorator/roles.decorator";
 import { CreatePartidaEquipeDto } from "./dto/create-partida-equipe.dto";
 import { CreatePartidaIndividualDto } from "./dto/create-partida-individual.dto";
 import { UpdatePartidaEquipeDto } from "./dto/update-partida-equipe.dto";
@@ -8,6 +13,7 @@ import { PartidaEquipeService } from "./partida-equipe.service";
 import { PartidaIndividualService } from "./partida-individual.service";
 import { PartidaService } from "./partida.service";
 
+@ApiTags('Partida')
 @Controller('partida')
 export class PartidaController {
   constructor(
@@ -26,8 +32,30 @@ export class PartidaController {
   }
 
   @Get()
-  findAll() {
-    return this.partidaService.findAll();
+  findAllPartidas(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
+    @Query('search') search: string,
+  ) {
+    return this.partidaService.findAll({ page, limit }, search);
+  }
+
+  @Get('individual')
+  findAllPartidasIndividuais(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
+    @Query('search') search: string,
+  ) {
+    return this.partidaIndividualService.findAll({ page, limit }, search);
+  }
+
+  @Get('equipe')
+  findAllPartidasEquipe(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
+    @Query('search') search: string,
+  ) {
+    return this.partidaEquipeService.findAll({ page, limit }, search);
   }
 
   @Get(':id')

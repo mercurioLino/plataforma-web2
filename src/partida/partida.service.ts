@@ -1,21 +1,22 @@
 import { RecordNotFoundException } from "@exceptions";
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { IPaginationOptions, Pagination, paginate } from "nestjs-typeorm-paginate";
+import { FindOptionsWhere, ILike, Repository } from "typeorm";
 import { Partida } from "./entities/partida.entity";
 
 @Injectable()
 export class PartidaService {
   constructor(@InjectRepository(Partida) private repository: Repository<Partida>) {}
 
-  async findAll() {
-    const partida: Array<Partida> = await this.repository.find(); 
+  async findAll(options: IPaginationOptions, search?: string): Promise<Pagination<Partida>> {
+    const where: FindOptionsWhere<Partida>={}; 
 
-    if (partida.length == 0) {
-      return 'Não existem partidas entre s cadastradas';
+    if (search) {
+      where.torneio = ILike(`%${search}%`);
     }
         
-    return partida;
+    return paginate<Partida>(this.repository, options, {where});
   }
 
   async findOne(id: number) {

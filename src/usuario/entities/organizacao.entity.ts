@@ -1,5 +1,5 @@
 import { hashSync } from "bcrypt";
-import { IsOptional } from "class-validator";
+import { IsBoolean, IsOptional } from "class-validator";
 import { Funcionario } from "src/usuario/entities/funcionario.entity";
 import { TorneioIndividual } from "src/torneio/entities/torneio-individual.entity";
 import { Torneio } from "src/torneio/entities/torneio.entity";
@@ -17,6 +17,9 @@ export class Organizacao extends Usuario{
 
     @IsOptional()
     nomeFantasia: string;
+
+    @IsBoolean()
+    ativa: boolean;
 
     @OneToMany(() => Torneio, (torneio) => torneio.organizacao, {
         cascade: true,

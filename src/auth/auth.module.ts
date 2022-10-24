@@ -9,10 +9,22 @@ import { UsuarioModule } from 'src/usuario/usuario.module';
 import { OrganizacaoService } from 'src/usuario/services/organizacao.service';
 import { UsuarioService } from 'src/usuario/services/usuario.service';
 import { JogadorService } from 'src/usuario/services/jogador.service';
+import { TorneioModule } from 'src/torneio/torneio.module';
+import { PartidaModule } from 'src/partida/partida.module';
+import { JogoModule } from 'src/jogo/jogo.module';
+import { JogadorPerfilJogoModule } from 'src/jogador-perfil-jogo/jogador-perfil-jogo.module';
+import { EquipeModule } from 'src/equipe/equipe.module';
+import { AtendimentoModule } from 'src/atendimento/atendimento.module';
 
 @Module({
   imports: [
     forwardRef(()=>UsuarioModule),
+    forwardRef(()=>TorneioModule),
+    forwardRef(()=>PartidaModule),
+    forwardRef(()=>JogoModule),
+    forwardRef(()=>JogadorPerfilJogoModule),
+    forwardRef(()=>EquipeModule),
+    forwardRef(()=>AtendimentoModule),
   JwtModule.registerAsync({ useFactory: (configService: ConfigService) => {
     return {
       secret: configService.get<string>('JWT_SECRET'),

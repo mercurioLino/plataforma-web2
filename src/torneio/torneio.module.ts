@@ -11,16 +11,19 @@ import { EquipeModule } from 'src/equipe/equipe.module';
 import { TorneioEquipe } from './entities/torneio-equipe.entity';
 import { Torneio } from './entities/torneio.entity';
 import { UsuarioModule } from 'src/usuario/usuario.module';
+import { AuthModule } from 'src/auth/auth.module';
+import { UsuarioService } from 'src/usuario/services/usuario.service';
 
 
 @Module({
   imports: [TypeOrmModule.forFeature([Torneio, TorneioEquipe, TorneioIndividual]), 
   forwardRef(() => UsuarioModule), 
   forwardRef(() => EquipeModule),  
-  forwardRef(() => JogoModule), 
+  forwardRef(() => JogoModule),  
+  forwardRef(() => AuthModule),
   forwardRef(() => PartidaModule)],
   controllers: [TorneioController],
-  providers: [TorneioIndividualService, TorneioEquipeService, TorneioService],
+  providers: [TorneioIndividualService, TorneioEquipeService, TorneioService, UsuarioService],
   exports: [TypeOrmModule]
 })
 export class TorneioModule {}

@@ -5,6 +5,9 @@ import { ValidationError } from 'class-validator';
 
 import { AppModule } from './app.module';
 
+
+//AUTORES: EDUARDO ALVES DE OLIVEIRA FREITAS E LEONARDO GABRIEL MERCURIO LINO
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(
@@ -15,17 +18,26 @@ async function bootstrap() {
       },
     }),
   );
-  const config = new DocumentBuilder()
-  .setTitle('Documentação com Swagger - Fábrica de Sinapse')
-  .setDescription(
-    'O Swagger (aka OpenApi) é uma biblioteca muito conhecida no universo backend, estando disponível para diversas linguagens e frameworks. Ela gera um site interno no seu backend que descreve, com muitos detalhes, cada endpoint e estrutura de entidades presentes na sua aplicação.',
-  )
-  .setVersion('1.0')
-  .addTag('users')
-  .build();
+      const config = new DocumentBuilder()
+      .setTitle('Doc. Swagger - OurBattle.gg')
+      .setDescription(
+        `Swagger De OurBattle.gg - Desenvolvido Por Eduardo Alves e Leonardo Gabriel, em caso de Dúvidas Para <a href="mailto:alves.freitas@ufms.br?subject=AJUDA &cc=leonardo.gabriel@ufms.br&body=Preciso de ajuda com REST API SWAGGER">Contato`,
+      )
+      .setVersion('1.0')
+      .addTag('Jogador')
+      .addTag('Organização')
+      .addTag('Funcionario')
+      .addTag('Torneio')
+      .addTag('Partida')
+      .addTag('Jogo')
+      .addTag('Jogador-Pefil-Jogo')
+      .addTag('Equipe')
+      .addTag('Auth')
+      .addTag('Atendimento')
+      .build();
 
-const document = SwaggerModule.createDocument(app, config);
-SwaggerModule.setup('api', app, document);
+      const document = SwaggerModule.createDocument(app, config);
+      SwaggerModule.setup('api', app, document);
   await app.listen(3000);
 }
 bootstrap();

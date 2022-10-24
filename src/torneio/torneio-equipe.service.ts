@@ -3,12 +3,13 @@ import { Equipe } from 'src/equipe/entities/equipe.entity';
 import { RecordNotFoundException } from '@exceptions';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 import { CreateTorneioEquipeDto } from './dto/create-torneio-equipe.dto';
 import { UpdateTorneioEquipeDto } from './dto/update-torneio-equipe.dto';
 import { TorneioEquipe } from './entities/torneio-equipe.entity';
 import { CreatePartidaEquipeDto } from 'src/partida/dto/create-partida-equipe.dto';
 import { RelationEntityDto } from 'src/shared/dto/relation-entity.dto';
+import { IPaginationOptions, Pagination, paginate } from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class TorneioEquipeService {
@@ -24,14 +25,14 @@ export class TorneioEquipeService {
     return this.repository.save(torneioEquipe);
   }
 
-  async findAll() {
-    const torneio: Array<TorneioEquipe> = await this.repository.find(); 
+  async findAll(options: IPaginationOptions, search?: string): Promise<Pagination<TorneioEquipe>> {
+    const where: FindOptionsWhere<TorneioEquipe>={}; 
 
-    if (torneio.length == 0) {
-      return 'Não existem torneio em equipe cadastrados';
+    if (search) {
+      where.jogo = ILike(`%${search}%`);
     }
         
-    return torneio;
+    return paginate<TorneioEquipe>(this.repository, options, {where});
   }
 
   async findOne(id: number) {
@@ -57,8 +58,14 @@ export class TorneioEquipeService {
 
   async addEquipe(id: number, relationEntityDto: RelationEntityDto){
     const torneio: TorneioEquipe = await this.repository.findOneBy({id});
-
-    torneio.equipes.push(await this.repositoryEquipe.findOneBy({id: relationEntityDto.id}));
+    if(!torneio){
+      throw new RecordNotFoundException();
+    }
+    const equipe = await this.repositoryEquipe.findOneBy({id: relationEntityDto.id})
+    if(!equipe){
+      throw new RecordNotFoundException();
+    }
+    torneio.equipes.push(equipe);
     return this.repository.save(torneio);
   }
 

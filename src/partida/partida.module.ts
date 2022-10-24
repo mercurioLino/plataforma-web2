@@ -10,6 +10,7 @@ import { PartidaEquipe } from './entities/partida-equipe.entity';
 import { PartidaIndividual } from './entities/partida-individual.entity';
 import { PartidaService } from './partida.service';
 import { UsuarioModule } from 'src/usuario/usuario.module';
+import { UsuarioService } from 'src/usuario/services/usuario.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Partida, PartidaEquipe, PartidaIndividual]), 
@@ -17,7 +18,7 @@ import { UsuarioModule } from 'src/usuario/usuario.module';
   forwardRef(() => UsuarioModule), 
   forwardRef(() => EquipeModule)],
   controllers: [PartidaController],
-  providers: [PartidaEquipeService, PartidaIndividualService, PartidaService],
+  providers: [PartidaEquipeService, PartidaIndividualService, PartidaService, UsuarioService],
   exports: [TypeOrmModule]
 })
 export class PartidaModule {}

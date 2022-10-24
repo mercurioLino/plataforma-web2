@@ -25,6 +25,7 @@ import { Usuario } from "./usuario/entities/usuario.entity";
 import { UsuarioModule } from './usuario/usuario.module';
 import { Jogador } from "./usuario/entities/jogador.entity";
 import { Organizacao } from "./usuario/entities/organizacao.entity";
+import { Admin } from "./usuario/entities/admin.entity";
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -32,6 +33,7 @@ import { Organizacao } from "./usuario/entities/organizacao.entity";
       type: 'sqlite',
       database: 'database/plataforma.db',
       entities: [
+        Admin,
         Organizacao, 
         Jogador, 
         Funcionario, 
@@ -59,7 +61,6 @@ import { Organizacao } from "./usuario/entities/organizacao.entity";
     UsuarioModule,
   ],
   controllers: [],
-  
   providers: [{ provide: APP_GUARD, useClass: JwtAuthGuard }]
 })
 export class AppModule {}
